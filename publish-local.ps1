@@ -34,8 +34,6 @@ $semanticVersion = "$majorVersion.$minorVersion.$patchVersion-$prereleaseVersion
 
 Write-Host "Semenatic version is $semanticVersion"
 
-dotnet pack .\Blazor.ExtraDry.Core\Blazor.ExtraDry.Core.csproj -p:PackageVersion=$semanticVersion
-dotnet pack .\Blazor.ExtraDry\Blazor.ExtraDry.csproj -p:PackageVersion=$semanticVersion
+dotnet pack .\Blazor.ExtraDry.Analyzers.Package\Blazor.ExtraDry.Analyzers.Package.csproj -p:PackageVersion=$semanticVersion
 
-nuget add .\Blazor.ExtraDry.Core\bin\Debug\Blazor.ExtraDry.Core.$semanticVersion.nupkg -source $env:USERPROFILE\Repos\Nuget\
-nuget add .\Blazor.ExtraDry\bin\Debug\Blazor.ExtraDry.$semanticVersion.nupkg -source $env:USERPROFILE\Repos\Nuget\
+nuget add .\Blazor.ExtraDry.Analzyers.Package\bin\Debug\Blazor.ExtraDry.Analyzers.Package.$semanticVersion.nupkg -source $env:USERPROFILE\Repos\Nuget\
