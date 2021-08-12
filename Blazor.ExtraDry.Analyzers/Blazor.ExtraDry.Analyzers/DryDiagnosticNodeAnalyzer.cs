@@ -49,12 +49,8 @@ namespace Blazor.ExtraDry.Analyzers
 
         protected bool HasAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string attributeName, out AttributeSyntax attribute)
         {
-            if(_class.Identifier.ValueText == "SampleController") {
-                int x = 0;
-            }
             var fullName = $"{attributeName}Attribute";
             var attributes = _class.AttributeLists.SelectMany(e => e.Attributes);
-            
             foreach(var attr in attributes) {
                 var attrSymbol = context.SemanticModel.GetTypeInfo(attr).Type;
                 var inherits = Inherits(attrSymbol, fullName);
@@ -65,8 +61,6 @@ namespace Blazor.ExtraDry.Analyzers
             }
             attribute = null;
             return false;
-            //    .FirstOrDefault(e => e.GetText().ToString() == attributeName || e.GetText().ToString() == fullName);
-            //return attribute != null;
         }
 
         protected bool InheritsFrom(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string baseName)
@@ -88,8 +82,6 @@ namespace Blazor.ExtraDry.Analyzers
             }
             return false;
         }
-
-        public const string filename = @"C:\Users\Adrian\log.txt";
 
     }
 }
