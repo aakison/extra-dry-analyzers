@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Blazor.ExtraDry.Analyzers.Vsix": {
+      "commandName": "Project"
+    }
+  }
+}
