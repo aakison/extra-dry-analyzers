@@ -36,4 +36,4 @@ Write-Host "Semenatic version is $semanticVersion"
 
 dotnet pack .\Blazor.ExtraDry.Analyzers.Package\Blazor.ExtraDry.Analyzers.Package.csproj -p:PackageVersion=$semanticVersion
 
-nuget add .\Blazor.ExtraDry.Analzyers.Package\bin\Debug\Blazor.ExtraDry.Analyzers.Package.$semanticVersion.nupkg -source $env:USERPROFILE\Repos\Nuget\
+nuget add .\Blazor.ExtraDry.Analyzers.Package\bin\Debug\Blazor.ExtraDry.Analyzers.$semanticVersion.nupkg -source $env:USERPROFILE\Repos\Nuget\
