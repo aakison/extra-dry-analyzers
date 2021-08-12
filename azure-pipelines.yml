@@ -19,7 +19,7 @@ variables:
   patchVersion: 0
   prereleaseVersion: ''
   semanticVersion: '0.1.0'  
-  projectsGlob: '**/Blazor.ExtraDry.(Analyzers|Analyzers.CodeFixes|Analyzers.Test|Analyzers.Package).csproj' # VSIX is .NET Framework and not needed for NuGet feed.
+  projectsGlob: '**/Blazor.ExtraDry.@(Analyzers|Analyzers.CodeFixes|Analyzers.Test|Analyzers.Package).csproj' # VSIX is .NET Framework and not needed for NuGet feed.
   isForDeployment: $[in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/develop', 'refs/heads/release')]
 
 steps:
