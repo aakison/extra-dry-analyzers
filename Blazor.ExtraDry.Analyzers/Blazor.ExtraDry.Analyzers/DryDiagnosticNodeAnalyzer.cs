@@ -51,6 +51,18 @@ namespace Blazor.ExtraDry.Analyzers
         {
             var fullName = $"{attributeName}Attribute";
             var attributes = _class.AttributeLists.SelectMany(e => e.Attributes);
+            return AnyAttributeMatches(context, out attribute, fullName, attributes);
+        }
+
+        protected bool HasAttribute(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, string attributeName, out AttributeSyntax attribute)
+        {
+            var fullName = $"{attributeName}Attribute";
+            var attributes = method.AttributeLists.SelectMany(e => e.Attributes);
+            return AnyAttributeMatches(context, out attribute, fullName, attributes);
+        }
+
+        private static bool AnyAttributeMatches(SyntaxNodeAnalysisContext context, out AttributeSyntax attribute, string fullName, IEnumerable<AttributeSyntax> attributes)
+        {
             foreach(var attr in attributes) {
                 var attrSymbol = context.SemanticModel.GetTypeInfo(attr).Type;
                 var inherits = Inherits(attrSymbol, fullName);
