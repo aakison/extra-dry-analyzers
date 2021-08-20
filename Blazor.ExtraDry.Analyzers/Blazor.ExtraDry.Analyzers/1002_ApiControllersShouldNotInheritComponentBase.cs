@@ -14,7 +14,7 @@ namespace Blazor.ExtraDry.Analyzers {
             DryAnalyzerCategory.Usage,
             DiagnosticSeverity.Info,
             "ApiController shouldn't inherit from ControllerBase",
-            "ApiController '{0}' shouldn't inherit from ControllerBase D",
+            "ApiController '{0}' shouldn't inherit from ControllerBase",
             "ApiController provides functionality for APIs without the heavy weight ControllerBase.  If features are needed from the ControllerBase, consider using Dependency Injection instead.  E.g. IHttpContextAccessor via DI to get access to HttpContext."
             )
         { }

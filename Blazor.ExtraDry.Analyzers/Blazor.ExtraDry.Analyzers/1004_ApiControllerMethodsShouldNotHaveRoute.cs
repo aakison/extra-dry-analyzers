@@ -12,7 +12,7 @@ namespace Blazor.ExtraDry.Analyzers {
             SyntaxKind.MethodDeclaration,
             1004,
             DryAnalyzerCategory.Usage,
-            DiagnosticSeverity.Info,
+            DiagnosticSeverity.Warning,
             "Methods of ApiControllers shouldn't have Route attribute",
             "Method '{0}' shouldn't have Route attribute",
             "Use the route on the the HttpVerbAttribute to prevent routes without verbs and verbs without routes."
