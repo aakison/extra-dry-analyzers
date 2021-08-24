@@ -49,23 +49,33 @@ namespace Blazor.ExtraDry.Analyzers
 
         protected bool HasAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string attributeName, out AttributeSyntax attribute)
         {
-            var fullName = $"{attributeName}Attribute";
+            return HasAnyAttribute(context, _class, out attribute, attributeName);
+        }
+
+        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, out AttributeSyntax attribute, params string[] attributeNames)
+        {
+            var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
             var attributes = _class.AttributeLists.SelectMany(e => e.Attributes);
-            return AnyAttributeMatches(context, out attribute, fullName, attributes);
+            return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
         protected bool HasAttribute(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, string attributeName, out AttributeSyntax attribute)
         {
-            var fullName = $"{attributeName}Attribute";
-            var attributes = method.AttributeLists.SelectMany(e => e.Attributes);
-            return AnyAttributeMatches(context, out attribute, fullName, attributes);
+            return HasAnyAttribute(context, method, out attribute, attributeName);
         }
 
-        private static bool AnyAttributeMatches(SyntaxNodeAnalysisContext context, out AttributeSyntax attribute, string fullName, IEnumerable<AttributeSyntax> attributes)
+        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, out AttributeSyntax attribute, params string[] attributeNames)
+        {
+            var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
+            var attributes = method.AttributeLists.SelectMany(e => e.Attributes);
+            return AnyAttributeMatches(context, out attribute, fullNames, attributes);
+        }
+
+        private static bool AnyAttributeMatches(SyntaxNodeAnalysisContext context, out AttributeSyntax attribute, IEnumerable<string> fullNames, IEnumerable<AttributeSyntax> attributes)
         {
             foreach(var attr in attributes) {
                 var attrSymbol = context.SemanticModel.GetTypeInfo(attr).Type;
-                var inherits = Inherits(attrSymbol, fullName);
+                var inherits = fullNames.Any(e => Inherits(attrSymbol, e));
                 if(inherits) {
                     attribute = attr;
                     return true;
