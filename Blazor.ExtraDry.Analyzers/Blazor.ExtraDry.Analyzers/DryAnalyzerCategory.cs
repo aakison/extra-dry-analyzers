@@ -5,5 +5,6 @@
         Usage,
         Annotation,
         Naming,
+        Security,
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using VerifyCS = Blazor.ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
-    Blazor.ExtraDry.Analyzers.ApiControllerPublicMethodShouldHaveVerb>;
+    Blazor.ExtraDry.Analyzers.ApiControllerShouldNotHaveAllowAnonymous>;
 
 namespace Blazor.ExtraDry.Analyzers.Test
 {
     [TestClass]
-    public class ApiControllerPublicMethodShouldHaveVerbTests {
+    public class ApiControllerShouldNotHaveAllowAnonymousTests {
 
         [TestMethod]
         public async Task AllGood_NoDiagnostic()
@@ -21,21 +21,11 @@ public class SampleController {
         }
 
         [TestMethod]
-        public async Task AllGoodNonStandardVerb_NoDiagnostic()
+        public async Task AllowAnonymous_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 [ApiController]
-public class SampleController {
-    [HttpPatch(""abc"")]
-    public void Retrieve(int id) {}
-}
-");
-        }
-
-        [TestMethod]
-        public async Task AllGoodNotAController_NoDiagnostic()
-        {
-            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[[|AllowAnonymous|]]
 public class SampleController {
     public void Retrieve(int id) {}
 }
@@ -43,24 +33,24 @@ public class SampleController {
         }
 
         [TestMethod]
-        public async Task AllGoodNotPublicMethod_NoDiagnostic()
+        public async Task AllowAnonymousAttribute_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 [ApiController]
+[[|AllowAnonymousAttribute|]]
 public class SampleController {
-    private void Retrieve(int id) {}
+    public void Retrieve(int id) {}
 }
 ");
         }
 
-
         [TestMethod]
-        public async Task MissingVerbMethod_Diagnostic()
+        public async Task AllowAnonymousComposite_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-[ApiController]
+[ApiController, [|AllowAnonymous|]]
 public class SampleController {
-    public void [|Retrieve|](int id) {}
+    public void Retrieve(int id) {}
 }
 ");
         }

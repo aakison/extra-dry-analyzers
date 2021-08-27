@@ -68,33 +68,35 @@ public class SampleController {
 ");
         }
 
-        public string stubs = @"
-using System;
-using System.Collections.Generic;
-using System.Text;
+        public string stubs = TestHelpers.Stubs;
+        
+//        @"
+//using System;
+//using System.Collections.Generic;
+//using System.Text;
 
-[AttributeUsage(AttributeTargets.Class)]
-public class ApiControllerAttribute : Attribute
-{
-}
+//[AttributeUsage(AttributeTargets.Class)]
+//public class ApiControllerAttribute : Attribute
+//{
+//}
 
-[AttributeUsage(AttributeTargets.Method)]
-public class RouteAttribute : Attribute
-{
-    public RouteAttribute() {}
+//[AttributeUsage(AttributeTargets.Method)]
+//public class RouteAttribute : Attribute
+//{
+//    public RouteAttribute() {}
 
-    public RouteAttribute(string route) {}
-}
+//    public RouteAttribute(string route) {}
+//}
 
-[AttributeUsage(AttributeTargets.Method)]
-public class HttpGetAttribute : Attribute
-{
-    public HttpGetAttribute() {}
+//[AttributeUsage(AttributeTargets.Method)]
+//public class HttpGetAttribute : Attribute
+//{
+//    public HttpGetAttribute() {}
 
-    public HttpGetAttribute(string route) {}
-}
+//    public HttpGetAttribute(string route) {}
+//}
 
-";
+//";
 
     }
 }

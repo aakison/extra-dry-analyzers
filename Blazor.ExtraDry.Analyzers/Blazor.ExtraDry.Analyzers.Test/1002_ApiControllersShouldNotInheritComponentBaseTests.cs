@@ -67,15 +67,7 @@ public class SampleController : DerivedController {
 ");
         }
 
-        public string stubs = @"
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-[AttributeUsage(AttributeTargets.Class)]
-public class ApiControllerAttribute : Attribute
-{
-}
+        public string stubs = TestHelpers.Stubs + @"
 
 public class ControllerBase { }
 

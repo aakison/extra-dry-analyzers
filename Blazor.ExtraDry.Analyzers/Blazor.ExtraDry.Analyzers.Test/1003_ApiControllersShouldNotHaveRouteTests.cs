@@ -100,25 +100,7 @@ public class SampleController {
 ");
         }
 
-        public string stubs = @"
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-[AttributeUsage(AttributeTargets.Class)]
-public class ApiControllerAttribute : Attribute
-{
-}
-
-[AttributeUsage(AttributeTargets.Class)]
-public class RouteAttribute : Attribute
-{
-    public RouteAttribute() {}
-
-    public RouteAttribute(string route) {}
-}
-
-";
+        public string stubs = TestHelpers.Stubs;
 
     }
 }
