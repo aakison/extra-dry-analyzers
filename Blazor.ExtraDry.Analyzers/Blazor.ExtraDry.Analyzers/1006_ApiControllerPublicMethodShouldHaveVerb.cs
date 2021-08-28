@@ -24,7 +24,7 @@ namespace Blazor.ExtraDry.Analyzers {
         {
             var method = (MethodDeclarationSyntax)context.Node;
             var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
-            var isPublic = method.ChildTokens().Any(e => e.Kind() == SyntaxKind.PublicKeyword);
+            var isPublic = HasVisibility(method, Visibility.Public);
             var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
             var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPut", "HttpPost", "HttpDelete", "HttpPatch");
             if(hasApiAttribute && isPublic && !hasVerbAttribute) {

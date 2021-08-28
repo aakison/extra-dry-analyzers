@@ -85,6 +85,26 @@ namespace Blazor.ExtraDry.Analyzers
             return false;
         }
 
+        protected static bool HasVisibility(MethodDeclarationSyntax method, Visibility visibility)
+        {
+            var kind = SyntaxKind.PublicKeyword;
+            switch(visibility) {
+                case Visibility.Public:
+                    kind = SyntaxKind.PublicKeyword;
+                    break;
+                case Visibility.Private:
+                    kind = SyntaxKind.PrivateKeyword;
+                    break;
+                case Visibility.Protected:
+                    kind = SyntaxKind.ProtectedKeyword;
+                    break;
+                case Visibility.Internal:
+                    kind = SyntaxKind.InternalKeyword;
+                    break;
+            };
+            return method.ChildTokens()?.Any(e => e.Kind() == kind) ?? false;
+        }
+
         protected bool InheritsFrom(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string baseName)
         {
             var symbol = context.SemanticModel.GetDeclaredSymbol(_class);

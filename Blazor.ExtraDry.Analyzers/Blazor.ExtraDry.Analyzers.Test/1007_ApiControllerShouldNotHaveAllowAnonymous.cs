@@ -21,6 +21,18 @@ public class SampleController {
         }
 
         [TestMethod]
+        public async Task NotApiController_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[AllowAnonymous]
+public class SampleController {
+    [HttpGet(""abc"")]
+    public void Retrieve(int id) {}
+}
+");
+        }
+
+        [TestMethod]
         public async Task AllowAnonymous_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
