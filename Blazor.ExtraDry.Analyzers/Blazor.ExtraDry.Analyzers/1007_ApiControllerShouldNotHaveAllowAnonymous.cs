@@ -24,7 +24,8 @@ namespace Blazor.ExtraDry.Analyzers {
         {
             var _class = (ClassDeclarationSyntax)context.Node;
             var hasAllowAnonymous = HasAttribute(context, _class, "AllowAnonymous", out var attribute);
-            if(hasAllowAnonymous) {
+            var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
+            if(hasApiController && hasAllowAnonymous) {
                 context.ReportDiagnostic(Diagnostic.Create(Rule, attribute.GetLocation(), _class.Identifier.ValueText));
             }
         }
