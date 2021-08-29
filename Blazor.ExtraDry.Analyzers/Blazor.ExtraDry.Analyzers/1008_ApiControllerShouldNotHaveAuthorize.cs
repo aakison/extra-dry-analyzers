@@ -7,25 +7,25 @@ using System.Linq;
 namespace Blazor.ExtraDry.Analyzers {
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class ApiControllerShouldNotHaveAllowAnonymous : DryDiagnosticNodeAnalyzer {
+    public class ApiControllerShouldNotHaveAuthorize : DryDiagnosticNodeAnalyzer {
 
-        public ApiControllerShouldNotHaveAllowAnonymous() : base(
+        public ApiControllerShouldNotHaveAuthorize() : base(
             SyntaxKind.ClassDeclaration,
-            1007,
+            1008,
             DryAnalyzerCategory.Security,
             DiagnosticSeverity.Warning,
-            "API Controller Classes should not default all methods to AllowAnonymous",
-            "Class '{0}' should not have an AllowAnonymous attribute",
-            "Security should be considered at each individual endpoint.  Providing AllowAnonymous on the class can unintentionally allow new endpoints to have the wrong security policy.  Apply either AllowAnonymous or Authorize on each endpoint."
+            "API Controller Classes should not default all methods with Authorize",
+            "Class '{0}' should not have an Authorize attribute",
+            "Security should be considered at each individual endpoint.  Providing Authorize on the class can unintentionally allow new endpoints to have the wrong security policy.  Apply either AllowAnonymous or Authorize on each endpoint."
             )
         { }
 
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var _class = (ClassDeclarationSyntax)context.Node;
-            var hasAllowAnonymous = HasAttribute(context, _class, "AllowAnonymous", out var attribute);
+            var hasAuthorize = HasAttribute(context, _class, "Authorize", out var attribute);
             var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
-            if(hasApiController && hasAllowAnonymous) {
+            if(hasApiController && hasAuthorize) {
                 context.ReportDiagnostic(Diagnostic.Create(Rule, attribute.GetLocation(), _class.Identifier.ValueText));
             }
         }

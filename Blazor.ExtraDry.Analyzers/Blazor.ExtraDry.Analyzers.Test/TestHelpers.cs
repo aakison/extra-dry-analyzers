@@ -47,6 +47,18 @@ public class AllowAnonymousAttribute : Attribute
     public AllowAnonymousAttribute() {}
 }
 
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class AuthorizeAttribute : Attribute
+{
+    public AuthorizeAttribute() {}
+
+    public AuthorizeAttribute(string policy) {}
+
+    public string Policy { get; set; }
+
+    public string Roles { get; set; }
+}
+
 ";
 
     }
