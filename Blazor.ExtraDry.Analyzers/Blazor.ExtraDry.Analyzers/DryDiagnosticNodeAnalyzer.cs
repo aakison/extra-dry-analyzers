@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -73,19 +74,15 @@ namespace Blazor.ExtraDry.Analyzers
 
         private static bool AnyAttributeMatches(SyntaxNodeAnalysisContext context, out AttributeSyntax attribute, IEnumerable<string> fullNames, IEnumerable<AttributeSyntax> attributes)
         {
-            try {
-                foreach(var attr in attributes) {
-                    var attrSymbol = context.SemanticModel.GetTypeInfo(attr).Type;
-                    var inherits = fullNames.Any(e => Inherits(attrSymbol, e));
-                    if(inherits) {
-                        attribute = attr;
-                        return true;
-                    }
+            foreach(var attr in attributes) {
+                var attrSymbol = context.SemanticModel?.GetTypeInfo(attr).Type;
+                var inherits = fullNames?.Any(e => Inherits(attrSymbol, e)) ?? false;
+                if(inherits) {
+                    attribute = attr;
+                    return true;
                 }
             }
-            finally {
-                attribute = null;
-            }
+            attribute = null;
             return false;
         }
 
@@ -117,14 +114,14 @@ namespace Blazor.ExtraDry.Analyzers
 
         private static bool Inherits(ITypeSymbol symbol, string baseName)
         {
-            if(symbol.Name == baseName) {
+            if(symbol?.Name == baseName) {
                 return true;
             }
-            while(symbol.BaseType != null) {
-                if(symbol.Name == baseName) {
+            while(symbol?.BaseType != null) {
+                if(symbol?.Name == baseName) {
                     return true;
                 }
-                symbol = symbol.BaseType;
+                symbol = symbol?.BaseType;
             }
             return false;
         }
