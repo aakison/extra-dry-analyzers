@@ -23,7 +23,15 @@ namespace Blazor.ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
+            if(method == null) {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), "method is null", ""));
+                return;
+            }
             var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            if(_class == null) {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), "_class is null", ""));
+                return;
+            }
             var isPublic = HasVisibility(method, Visibility.Public);
             var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
             var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPut", "HttpPost", "HttpDelete", "HttpPatch");
