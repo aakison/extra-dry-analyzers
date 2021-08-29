@@ -73,15 +73,19 @@ namespace Blazor.ExtraDry.Analyzers
 
         private static bool AnyAttributeMatches(SyntaxNodeAnalysisContext context, out AttributeSyntax attribute, IEnumerable<string> fullNames, IEnumerable<AttributeSyntax> attributes)
         {
-            foreach(var attr in attributes) {
-                var attrSymbol = context.SemanticModel.GetTypeInfo(attr).Type;
-                var inherits = fullNames.Any(e => Inherits(attrSymbol, e));
-                if(inherits) {
-                    attribute = attr;
-                    return true;
+            try {
+                foreach(var attr in attributes) {
+                    var attrSymbol = context.SemanticModel.GetTypeInfo(attr).Type;
+                    var inherits = fullNames.Any(e => Inherits(attrSymbol, e));
+                    if(inherits) {
+                        attribute = attr;
+                        return true;
+                    }
                 }
             }
-            attribute = null;
+            finally {
+                attribute = null;
+            }
             return false;
         }
 

@@ -15,7 +15,7 @@ namespace Blazor.ExtraDry.Analyzers {
             DryAnalyzerCategory.Usage,
             DiagnosticSeverity.Warning,
             "Public methods of ApiController Classes should have a REST verb (e.g. HttpGet)",
-            "Method '{0}' on class '{1}' should have a HttpVerb attribute",
+            "Method '{0}' on class '{1}' should have an HttpVerb attribute",
             "API Controllers should be exclusively used as a public API interface, public methods that are not exposed might indicate functionality that should be refactored into a Service class."
             )
         { }
@@ -23,15 +23,7 @@ namespace Blazor.ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            if(method == null) {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), "method is null", ""));
-                return;
-            }
             var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
-            if(_class == null) {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), "_class is null", ""));
-                return;
-            }
             var isPublic = HasVisibility(method, Visibility.Public);
             var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
             var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPut", "HttpPost", "HttpDelete", "HttpPatch");
