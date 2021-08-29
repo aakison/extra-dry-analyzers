@@ -25,17 +25,13 @@ namespace Blazor.ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            try {
-                var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
-                var isPublic = HasVisibility(method, Visibility.Public);
-                var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
-                var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPut", "HttpPost", "HttpDelete", "HttpPatch");
-                if(hasApiAttribute && isPublic && !hasVerbAttribute) {
-                    context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
-                }
-            }
-            catch(Exception ex) {
-                File.WriteAllText(@"C:\Users\Adrian\Desktop\Heisenbug.txt", $"{ex.Message}\r\n{ex.StackTrace}\r\nat\r\n{method.Identifier.Text} {method.Identifier.GetLocation()}");
+            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            var isPublic = HasVisibility(method, Visibility.Public);
+            var isStatic = IsStatic(method);
+            var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
+            var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPut", "HttpPost", "HttpDelete", "HttpPatch");
+            if(hasApiAttribute && isPublic && !hasVerbAttribute && !isStatic) {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
             }
         }
 

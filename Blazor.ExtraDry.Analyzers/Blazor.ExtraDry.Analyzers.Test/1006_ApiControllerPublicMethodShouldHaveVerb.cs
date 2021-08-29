@@ -32,6 +32,16 @@ public class SampleController {
         }
 
         [TestMethod]
+        public async Task DontBombOutOnInterfaces_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+public interface SampleController {
+    void Retrieve(int id);
+}
+");
+        }
+
+        [TestMethod]
         public async Task AllGoodNonStandardVerb_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
