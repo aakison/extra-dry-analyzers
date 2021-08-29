@@ -21,6 +21,17 @@ public class SampleController {
         }
 
         [TestMethod]
+        public async Task DontApplyToStaticMethods_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[ApiController]
+public class SampleController {
+    public static void Retrieve(int id) {}
+}
+");
+        }
+
+        [TestMethod]
         public async Task AllGoodNonStandardVerb_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"

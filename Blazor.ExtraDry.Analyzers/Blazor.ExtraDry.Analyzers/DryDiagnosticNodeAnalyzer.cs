@@ -55,8 +55,12 @@ namespace Blazor.ExtraDry.Analyzers
 
         protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, out AttributeSyntax attribute, params string[] attributeNames)
         {
+            //if(attributeNames == null || !attributeNames.Any() || _class == null) {
+            //    attribute = null;
+            //    return false;
+            //}
             var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
-            var attributes = _class.AttributeLists.SelectMany(e => e.Attributes);
+            var attributes = _class.AttributeLists.SelectMany(e => e.Attributes) ?? Array.Empty<AttributeSyntax>();
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
