@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -26,11 +27,14 @@ namespace Blazor.ExtraDry.Analyzers
             } else {
                 Rule = new DiagnosticDescriptor($"DRY{code}", title, message, category.ToString(), severity,
                     isEnabledByDefault: true, description: description);
-                rules.Add(code, Rule);
+                rules.TryAdd(code, Rule);
             }
         }
 
-        private static readonly Dictionary<int, DiagnosticDescriptor> rules = new Dictionary<int, DiagnosticDescriptor>();
+        /// <summary>
+        /// Diagnostics are run in parallel for performance reasons, so our caching mechanism must be thread safe.
+        /// </summary>
+        private static readonly ConcurrentDictionary<int, DiagnosticDescriptor> rules = new ConcurrentDictionary<int, DiagnosticDescriptor>();
 
         protected DiagnosticDescriptor Rule { get; set; }
 
