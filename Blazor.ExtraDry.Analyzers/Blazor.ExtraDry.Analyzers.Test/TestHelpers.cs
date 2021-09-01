@@ -59,6 +59,10 @@ public class AuthorizeAttribute : Attribute
     public string Roles { get; set; }
 }
 
+public class ControllerBase {}
+
+public class Controller : ControllerBase {}
+
 ";
 
     }

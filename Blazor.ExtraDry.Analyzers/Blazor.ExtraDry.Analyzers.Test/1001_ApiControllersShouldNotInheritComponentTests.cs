@@ -59,11 +59,7 @@ public class SampleController : ControllerBase {
 
         public string stubs = TestHelpers.Stubs + @"
 
-public class ControllerBase { }
-
 public class DerivedControllerBase : ControllerBase {  }
-
-public class Controller : ControllerBase { }
 
 public class DerivedController : Controller {}
 ";
