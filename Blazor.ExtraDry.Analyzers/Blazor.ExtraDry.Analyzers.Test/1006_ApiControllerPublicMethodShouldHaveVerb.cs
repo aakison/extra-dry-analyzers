@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Xunit;
 using VerifyCS = Blazor.ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
     Blazor.ExtraDry.Analyzers.ApiControllerPublicMethodShouldHaveVerb>;
 
 namespace Blazor.ExtraDry.Analyzers.Test
 {
-    [TestClass]
+    
     public class ApiControllerPublicMethodShouldHaveVerbTests {
 
-        [TestMethod]
+        [Fact]
         public async Task AllGood_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -20,7 +20,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DontApplyToStaticMethods_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -31,7 +31,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DontBombOutOnInterfaces_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -41,7 +41,7 @@ public interface SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AllGoodNonStandardVerb_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -53,7 +53,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AllGoodNotAController_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -63,7 +63,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AllGoodNotPublicMethod_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -74,8 +74,7 @@ public class SampleController {
 ");
         }
 
-
-        [TestMethod]
+        [Fact]
         public async Task MissingVerbMethod_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -85,7 +84,6 @@ public class SampleController {
 }
 ");
         }
-
 
         public string stubs = TestHelpers.Stubs;
 

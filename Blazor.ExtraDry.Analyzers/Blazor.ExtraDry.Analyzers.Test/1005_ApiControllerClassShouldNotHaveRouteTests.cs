@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Xunit;
 using VerifyCS = Blazor.ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
     Blazor.ExtraDry.Analyzers.ApiControllerClassShouldNotHaveRoute>;
 
 namespace Blazor.ExtraDry.Analyzers.Test
 {
-    [TestClass]
+
     public class ApiControllerClassShouldNotHaveRouteTests {
 
-        [TestMethod]
+        [Fact]
         public async Task NotApplicable_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -20,7 +20,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RouteOnClass_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -33,7 +33,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ApiControllerRouteAttributeOnly_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -45,7 +45,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RouteMixedWithApiController_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"

@@ -21,12 +21,13 @@ namespace Blazor.ExtraDry.Analyzers
             string description)
         {
             Kind = kind;
-            if(!rules.ContainsKey(code))
-            {
-                rules.Add(code, new DiagnosticDescriptor($"DRY{code}", title, message, category.ToString(), severity,
-                    isEnabledByDefault: true, description: description));
+            if(rules.ContainsKey(code)) {
+                Rule = rules[code];
+            } else {
+                Rule = new DiagnosticDescriptor($"DRY{code}", title, message, category.ToString(), severity,
+                    isEnabledByDefault: true, description: description);
+                rules.Add(code, Rule);
             }
-            Rule = rules[code];
         }
 
         private static readonly Dictionary<int, DiagnosticDescriptor> rules = new Dictionary<int, DiagnosticDescriptor>();

@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Xunit;
 using VerifyCS = Blazor.ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
     Blazor.ExtraDry.Analyzers.ApiControllerShouldNotHaveAuthorize>;
 
 namespace Blazor.ExtraDry.Analyzers.Test
 {
-    [TestClass]
+
     public class ApiControllerShouldNotHaveAuthorizeTests {
 
-        [TestMethod]
+        [Fact]
         public async Task AllGood_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -20,7 +20,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task NotApiController_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -32,7 +32,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Authorize_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -44,7 +44,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AuthorizeParameterized_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -56,7 +56,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AuthorizeAttribute_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -68,7 +68,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task AuthorizeComposite_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -78,7 +78,6 @@ public class SampleController {
 }
 ");
         }
-
 
         public string stubs = TestHelpers.Stubs;
 

@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Xunit;
 using VerifyCS = Blazor.ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
     Blazor.ExtraDry.Analyzers.ApiControllerMethodsShouldNotHaveRoute>;
 
 namespace Blazor.ExtraDry.Analyzers.Test
 {
-    [TestClass]
+
     public class ApiControllerMethodsShouldNotHaveRouteTests {
 
-        [TestMethod]
+        [Fact]
         public async Task NotApplicable_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -20,7 +20,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RouteOnly_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -32,7 +32,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ApiControllerAttributeOnly_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -44,7 +44,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RouteParameterlessOnly_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -56,7 +56,7 @@ public class SampleController {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task RouteMixedWithVerb_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -70,33 +70,5 @@ public class SampleController {
 
         public string stubs = TestHelpers.Stubs;
         
-//        @"
-//using System;
-//using System.Collections.Generic;
-//using System.Text;
-
-//[AttributeUsage(AttributeTargets.Class)]
-//public class ApiControllerAttribute : Attribute
-//{
-//}
-
-//[AttributeUsage(AttributeTargets.Method)]
-//public class RouteAttribute : Attribute
-//{
-//    public RouteAttribute() {}
-
-//    public RouteAttribute(string route) {}
-//}
-
-//[AttributeUsage(AttributeTargets.Method)]
-//public class HttpGetAttribute : Attribute
-//{
-//    public HttpGetAttribute() {}
-
-//    public HttpGetAttribute(string route) {}
-//}
-
-//";
-
     }
 }
