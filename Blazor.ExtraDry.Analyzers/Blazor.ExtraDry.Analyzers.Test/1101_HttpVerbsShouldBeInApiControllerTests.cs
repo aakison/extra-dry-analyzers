@@ -1,26 +1,30 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Xunit;
 using VerifyCS = Blazor.ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
     Blazor.ExtraDry.Analyzers.HttpVerbsShouldBeInApiController>;
 
 namespace Blazor.ExtraDry.Analyzers.Test
 {
-    [TestClass]
     public class HttpVerbsShouldBeInApiControllerTests {
 
-        [TestMethod]
-        public async Task AllGood_NoDiagnostic()
+        [Theory]
+        [InlineData("HttpPatch")]
+        [InlineData("HttpPut")]
+        [InlineData("HttpDelete")]
+        [InlineData("HttpPost")]
+        [InlineData("HttpGet")]
+        public async Task AllGood_NoDiagnostic(string verb)
         {
-            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
 [ApiController]
-public class SampleController {
-    [HttpPatch(""/route"")]
-    public void Retrieve(int id) {}
-}
+public class SampleController {{
+    [{verb}(""/route"")]
+    public void Retrieve(int id) {{}}
+}}
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task IgnoreWhenControllerBase_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -31,7 +35,7 @@ public class SampleController : ControllerBase {
 ");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task IgnoreWhenController_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
@@ -42,44 +46,32 @@ public class SampleController : Controller {
 ");
         }
 
+        [Theory]
+        [InlineData("HttpPatch")]
+        [InlineData("HttpDelete")]
+        [InlineData("HttpPut")]
+        public async Task RouteImpliesApiController_Diagnostic(string verb)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+public class SampleController {{
+    [{verb}]
+    public void [|Retrieve|](int id) {{}}
+}}
+");
+        }
 
-
-
-        //        [TestMethod]
-        //        public async Task AuthorizeParameterized_Diagnostic()
-        //        {
-        //            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-        //[ApiController]
-        //[[|Authorize(""policy-name"")|]]
-        //public class SampleController {
-        //    public void Retrieve(int id) {}
-        //}
-        //");
-        //        }
-
-        //        [TestMethod]
-        //        public async Task AuthorizeAttribute_Diagnostic()
-        //        {
-        //            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-        //[ApiController]
-        //[[|AuthorizeAttribute|]]
-        //public class SampleController {
-        //    public void Retrieve(int id) {}
-        //}
-        //");
-        //        }
-
-        //        [TestMethod]
-        //        public async Task AuthorizeComposite_Diagnostic()
-        //        {
-        //            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-        //[ApiController, [|Authorize|]]
-        //public class SampleController {
-        //    public void Retrieve(int id) {}
-        //}
-        //");
-        //        }
-
+        [Theory]
+        [InlineData("HttpPost")]
+        [InlineData("HttpGet")]
+        public async Task RouteOnlySuggestsApiController_NoDiagnostic(string verb)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+public class SampleController {{
+    [{verb}]
+    public void Retrieve(int id) {{}}
+}}
+");
+        }
 
         public string stubs = TestHelpers.Stubs;
 

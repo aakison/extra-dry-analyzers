@@ -41,6 +41,30 @@ public class HttpPatchAttribute : Attribute
     public HttpPatchAttribute(string route) {}
 }
 
+[AttributeUsage(AttributeTargets.Method)]
+public class HttpDeleteAttribute : Attribute
+{
+    public HttpDeleteAttribute() {}
+
+    public HttpDeleteAttribute(string route) {}
+}
+
+[AttributeUsage(AttributeTargets.Method)]
+public class HttpPostAttribute : Attribute
+{
+    public HttpPostAttribute() {}
+
+    public HttpPostAttribute(string route) {}
+}
+
+[AttributeUsage(AttributeTargets.Method)]
+public class HttpPutAttribute : Attribute
+{
+    public HttpPutAttribute() {}
+
+    public HttpPutAttribute(string route) {}
+}
+
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AllowAnonymousAttribute : Attribute
 {
