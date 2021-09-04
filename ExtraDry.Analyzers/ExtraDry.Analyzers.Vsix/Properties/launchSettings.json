@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "ExtraDry.Analyzers.Vsix": {
+      "commandName": "Project"
+    }
+  }
+}
