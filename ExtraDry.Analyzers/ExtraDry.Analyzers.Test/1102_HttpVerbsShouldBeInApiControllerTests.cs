@@ -61,7 +61,7 @@ public class SampleController {{
             await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
 public class SampleController : {baseClass} {{
     [{verb}]
-    public void [|Retrieve|](int id) {{}}
+    public void Retrieve(int id) {{}}
 }}
 ");
         }
