@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Xunit;
 using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
-    ExtraDry.Analyzers.HttpVerbsShouldBeInApiController>;
+    ExtraDry.Analyzers.HttpVerbsShouldAlwaysBeInApiController>;
 
 namespace ExtraDry.Analyzers.Test
 {
@@ -24,25 +24,16 @@ public class SampleController {{
 ");
         }
 
-        [Fact]
-        public async Task IgnoreWhenControllerBase_NoDiagnostic()
+        [Theory]
+        [InlineData("HttpGet")]
+        [InlineData("HttpPost")]
+        public async Task IgnoreGetPostVerbs_NoDiagnostic(string verb)
         {
-            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public class SampleController : ControllerBase {
-    [HttpPatch(""/route"")]
-    public void Retrieve(int id) {}
-}
-");
-        }
-
-        [Fact]
-        public async Task IgnoreWhenController_NoDiagnostic()
-        {
-            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public class SampleController : Controller {
-    [HttpPatch(""/route"")]
-    public void Retrieve(int id) {}
-}
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+public class SampleController : Controller {{
+    [{verb}(""/route"")]
+    public void Retrieve(int id) {{}}
+}}
 ");
         }
 
@@ -60,18 +51,6 @@ public class SampleController {{
 ");
         }
 
-        [Theory]
-        [InlineData("HttpPost")]
-        [InlineData("HttpGet")]
-        public async Task RouteOnlySuggestsApiController_NoDiagnostic(string verb)
-        {
-            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
-public class SampleController {{
-    [{verb}]
-    public void Retrieve(int id) {{}}
-}}
-");
-        }
 
         public string stubs = TestHelpers.Stubs;
 

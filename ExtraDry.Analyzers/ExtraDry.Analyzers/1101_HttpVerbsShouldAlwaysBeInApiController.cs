@@ -7,9 +7,9 @@ using System.Linq;
 namespace ExtraDry.Analyzers {
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class HttpVerbsShouldBeInApiController : DryDiagnosticNodeAnalyzer {
+    public class HttpVerbsShouldAlwaysBeInApiController : DryDiagnosticNodeAnalyzer {
 
-        public HttpVerbsShouldBeInApiController() : base(
+        public HttpVerbsShouldAlwaysBeInApiController() : base(
             SyntaxKind.MethodDeclaration,
             1101,
             DryAnalyzerCategory.Usage,
@@ -25,9 +25,8 @@ namespace ExtraDry.Analyzers {
             var method = (MethodDeclarationSyntax)context.Node;
             var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
             var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
-            var isControllerBase = InheritsFrom(context, _class, "ControllerBase"); // don't double up with the rule to make these API Controllers.
             var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpPut", "HttpDelete", "HttpPatch");
-            if(hasVerbAttribute && !hasApiAttribute && !isControllerBase) {
+            if(hasVerbAttribute && !hasApiAttribute) {
                 context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
             }
         }
