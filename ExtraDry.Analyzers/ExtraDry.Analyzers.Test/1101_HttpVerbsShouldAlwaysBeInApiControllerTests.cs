@@ -5,7 +5,7 @@ using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
 
 namespace ExtraDry.Analyzers.Test
 {
-    public class HttpVerbsShouldBeInApiControllerTests {
+    public class HttpVerbsShouldAlwaysBeInApiControllerTests {
 
         [Theory]
         [InlineData("HttpPatch")]
