@@ -95,6 +95,37 @@ namespace ExtraDry.Analyzers
             return false;
         }
 
+        protected ExpressionSyntax FirstArgument(AttributeSyntax attribute)
+        {
+            if(attribute == null) {
+                return null;
+            }
+            var first = attribute?.ArgumentList?.Arguments.FirstOrDefault();
+            if(first == null || first.NameEquals != null) {
+                return null;
+            }
+            else {
+                return first.Expression;
+            }
+        }
+
+        protected ExpressionSyntax NamedArgument(AttributeSyntax attribute, string argumentName)
+        {
+            if(attribute == null) {
+                return null;
+            }
+            var list = attribute?.ArgumentList?.Arguments;
+            if(list == null) {
+                return null;
+            }
+            foreach(var item in list) {
+                if(item.NameEquals?.Name.Identifier.ValueText == argumentName) {
+                    return item.Expression;
+                }
+            }
+            return null;
+        }
+
         protected static bool HasVisibility(MethodDeclarationSyntax method, Visibility visibility)
         {
             var kind = SyntaxKind.PublicKeyword;

@@ -31,6 +31,12 @@ public class HttpGetAttribute : Attribute
     public HttpGetAttribute() {}
 
     public HttpGetAttribute(string route) {}
+
+    public string Name { get; set; }
+
+    public string Template { get; set; }
+
+    public int Order { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Method)]
@@ -39,6 +45,12 @@ public class HttpPatchAttribute : Attribute
     public HttpPatchAttribute() {}
 
     public HttpPatchAttribute(string route) {}
+
+    public string Name { get; set; }
+
+    public string Template { get; set; }
+
+    public int Order { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Method)]
@@ -47,6 +59,12 @@ public class HttpDeleteAttribute : Attribute
     public HttpDeleteAttribute() {}
 
     public HttpDeleteAttribute(string route) {}
+
+    public string Name { get; set; }
+
+    public string Template { get; set; }
+
+    public int Order { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Method)]
@@ -55,6 +73,12 @@ public class HttpPostAttribute : Attribute
     public HttpPostAttribute() {}
 
     public HttpPostAttribute(string route) {}
+
+    public string Name { get; set; }
+
+    public string Template { get; set; }
+
+    public int Order { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Method)]
@@ -63,6 +87,12 @@ public class HttpPutAttribute : Attribute
     public HttpPutAttribute() {}
 
     public HttpPutAttribute(string route) {}
+
+    public string Name { get; set; }
+
+    public string Template { get; set; }
+
+    public int Order { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
