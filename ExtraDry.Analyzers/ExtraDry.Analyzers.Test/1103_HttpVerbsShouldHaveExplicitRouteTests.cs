@@ -29,7 +29,7 @@ public class SampleController {{
         [InlineData("HttpPut")]
         [InlineData("HttpDelete")]
         [InlineData("HttpPost")]
-        //[InlineData("HttpGet")]
+        [InlineData("HttpGet")]
         public async Task NoArgumentsAtAll_Diagnostic(string verb)
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
