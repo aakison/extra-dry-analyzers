@@ -49,6 +49,22 @@ public class SampleController {{
 ");
         }
 
+        [Theory]
+        [InlineData("HttpPatch")]
+        [InlineData("HttpPut")]
+        [InlineData("HttpDelete")]
+        [InlineData("HttpPost")]
+        [InlineData("HttpGet")]
+        public async Task NotApiController_NoDiagnostic(string verb)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+public class SampleController : Controller {{
+    [{verb}]
+    public void Method(int id) {{}}
+}}
+");
+        }
+
         public string stubs = TestHelpers.Stubs;
 
     }

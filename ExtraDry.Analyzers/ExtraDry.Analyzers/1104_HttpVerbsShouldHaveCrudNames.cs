@@ -28,6 +28,11 @@ namespace ExtraDry.Analyzers {
             if(!hasVerbAttribute) {
                 return;
             }
+            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            var isApiController = HasAttribute(context, _class, "ApiController", out var _);
+            if(!isApiController) {
+                return;
+            }
             var validPrefixes = prefixLookup[verbAttribute.Name.ToString()];
             var hasValidPrefix = validPrefixes.Any(e => method.Identifier.ValueText.StartsWith(e));
             if(!hasValidPrefix) {
