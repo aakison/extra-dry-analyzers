@@ -29,6 +29,20 @@ public class SampleController {{
         [InlineData("HttpPatch")]
         [InlineData("HttpPut")]
         [InlineData("HttpPost")]
+        public async Task MvcViewController_NoDiagnostic(string verb)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+public class SampleController : Controller {{
+    [{verb}]
+    public void Method(int id) {{}}
+}}
+");
+        }
+
+        [Theory]
+        [InlineData("HttpPatch")]
+        [InlineData("HttpPut")]
+        [InlineData("HttpPost")]
         public async Task MissingConsumes_Diagnostic(string verb)
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + $@"

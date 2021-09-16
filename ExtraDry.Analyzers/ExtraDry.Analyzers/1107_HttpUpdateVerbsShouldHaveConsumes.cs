@@ -25,8 +25,16 @@ namespace ExtraDry.Analyzers {
         {
             var method = (MethodDeclarationSyntax)context.Node;
             var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpPost", "HttpPut", "HttpPatch");
+            if(!hasVerbAttribute) {
+                return;
+            }
             var hasConsumesAttribute = HasAnyAttribute(context, method, out var _, "Consumes");
-            if(hasVerbAttribute && !hasConsumesAttribute) {
+            if(hasConsumesAttribute) {
+                return;
+            }
+            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
+            if(hasApiController) {
                 context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
             }
         }
