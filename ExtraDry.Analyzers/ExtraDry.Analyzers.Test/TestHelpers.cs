@@ -113,9 +113,18 @@ public class AuthorizeAttribute : Attribute
     public string Roles { get; set; }
 }
 
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class ConsumesAttribute : Attribute
+{
+    public ConsumesAttribute(string contentType, params string[] otherTypes) {}
+
+    public int ConsumesActionConstraintOrder { get; set; }
+}
+
 public class ControllerBase {}
 
 public class Controller : ControllerBase {}
+
 
 ";
 

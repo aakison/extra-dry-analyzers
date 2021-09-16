@@ -6,5 +6,6 @@
         Annotation,
         Naming,
         Security,
+        ApiUsage,
     }
 }
