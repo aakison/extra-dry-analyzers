@@ -109,6 +109,20 @@ namespace ExtraDry.Analyzers
             }
         }
 
+        protected ParameterSyntax FirstParameter(MethodDeclarationSyntax method)
+        {
+            if(method == null) {
+                return null;
+            }
+            var first = method.ParameterList?.Parameters.FirstOrDefault();
+            if(first == null) {
+                return null;
+            }
+            else {
+                return first;
+            }
+        }
+
         protected ExpressionSyntax NamedArgument(AttributeSyntax attribute, string argumentName)
         {
             if(attribute == null) {

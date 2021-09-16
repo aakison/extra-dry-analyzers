@@ -5,7 +5,7 @@ using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
 
 namespace ExtraDry.Analyzers.Test
 {
-    public class HttpVerbsShouldHaveExplicitSecurity {
+    public class HttpVerbsShouldHaveExplicitSecurityTests {
 
         [Theory]
         [InlineData("HttpPatch", "AllowAnonymous")] // Set up alright
