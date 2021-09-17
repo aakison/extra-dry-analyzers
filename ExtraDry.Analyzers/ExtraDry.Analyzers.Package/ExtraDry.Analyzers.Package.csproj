@@ -12,12 +12,11 @@
     <PackageVersion>0.1</PackageVersion>
     <Authors>adrian.akison</Authors>
     <Company>FMI Works</Company>
-    <Description>Opinionated rules for building RESTful web services and Blazor SPA apps using the Blazor Extra Dry framework.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/fmi-works/extra-dry-analyzers</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fmi-works/extra-dry-analyzers.git</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>ExtraDry.Analyzers</Description>
+    <Description>An opinionated set of rules for creating APIs using the Extra Dry framework.</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
     <PackageTags>blazor spa microsoft dry low-code analyzers</PackageTags>
@@ -25,6 +24,12 @@
     <NoPackageAnalysis>true</NoPackageAnalysis>
 
     <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
+
+    <PackageIcon>extra-dry-logo.png</PackageIcon>
+
+    <PackageIconUrl />
+
+    <Product>ExtraDry Analyzers</Product>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +39,10 @@
 
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+    <None Include="..\..\extra-dry-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <Target Name="_AddAnalyzersToOutput">
