@@ -25,10 +25,14 @@ namespace ExtraDry.Analyzers {
         {
             var method = (MethodDeclarationSyntax)context.Node;
             var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPost", "HttpPut", "HttpPatch", "HttpDelete");
-            var hasAuthorizeAttribute = HasAnyAttribute(context, method, out var _, "AllowAnonymous", "Authorize");
-            if(hasVerbAttribute && !hasAuthorizeAttribute) {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
+            if(!hasVerbAttribute) {
+                return;
             }
+            var hasAuthorizeAttribute = HasAnyAttribute(context, method, out var _, "AllowAnonymous", "Authorize");
+            if(hasAuthorizeAttribute) {
+                return;
+            }
+            context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
         }
 
     }

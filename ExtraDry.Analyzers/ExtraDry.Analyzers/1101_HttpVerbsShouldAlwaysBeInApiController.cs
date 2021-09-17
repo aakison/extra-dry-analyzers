@@ -22,12 +22,19 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
-            var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
             var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpPut", "HttpDelete", "HttpPatch");
-            if(hasVerbAttribute && !hasApiAttribute) {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
+            if(!hasVerbAttribute) {
+                return;
             }
+            var _class = ClassForMethod(method);
+            if(_class == null) {
+                return; // e.g. an interface
+            }
+            var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
+            if(hasApiAttribute) {
+                return;
+            }
+            context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
         }
 
     }

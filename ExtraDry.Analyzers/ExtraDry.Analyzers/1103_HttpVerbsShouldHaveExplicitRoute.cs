@@ -23,10 +23,14 @@ namespace ExtraDry.Analyzers {
         {
             var method = (MethodDeclarationSyntax)context.Node;
             var hasVerbAttribute = HasAnyAttribute(context, method, out var verbAttribute, "HttpGet", "HttpPost", "HttpPut", "HttpPatch", "HttpDelete");
-            var argument = FirstArgument(verbAttribute) ?? NamedArgument(verbAttribute, "Template");
-            if(hasVerbAttribute && argument == null) {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, verbAttribute.GetLocation(), verbAttribute.Name.ToFullString(), method.Identifier.ValueText));
+            if(!hasVerbAttribute) {
+                return;
             }
+            var argument = FirstArgument(verbAttribute) ?? NamedArgument(verbAttribute, "Template");
+            if(argument != null) {
+                return;
+            }
+            context.ReportDiagnostic(Diagnostic.Create(Rule, verbAttribute.GetLocation(), verbAttribute.Name.ToFullString(), method.Identifier.ValueText));
         }
 
     }

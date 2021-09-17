@@ -25,7 +25,10 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            var _class = ClassForMethod(method);
+            if(_class == null) {
+                return;
+            }
             var isPublic = HasVisibility(method, Visibility.Public);
             var isStatic = IsStatic(method);
             var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);

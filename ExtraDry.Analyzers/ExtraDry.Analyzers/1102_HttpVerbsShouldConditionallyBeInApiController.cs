@@ -23,16 +23,20 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPost");
+            if(!hasVerbAttribute) {
+                return;
+            }
+            var _class = ClassForMethod(method);
             if(_class == null) {
                 return; // e.g. an interface
             }
             var hasApiAttribute = HasAttribute(context, _class, "ApiController", out var _);
-            var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPost");
             var isMvcController = InheritsFrom(context, _class, "ControllerBase");
-            if(hasVerbAttribute && !hasApiAttribute && !isMvcController) {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
+            if(hasApiAttribute || isMvcController) {
+                return;
             }
+            context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
         }
 
     }

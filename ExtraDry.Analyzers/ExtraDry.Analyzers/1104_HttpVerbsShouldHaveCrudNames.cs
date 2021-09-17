@@ -28,17 +28,21 @@ namespace ExtraDry.Analyzers {
             if(!hasVerbAttribute) {
                 return;
             }
-            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            var _class = ClassForMethod(method);
+            if(_class == null) {
+                return; // e.g. for interface
+            }
             var isApiController = HasAttribute(context, _class, "ApiController", out var _);
             if(!isApiController) {
                 return;
             }
             var validPrefixes = prefixLookup[verbAttribute.Name.ToString()];
             var hasValidPrefix = validPrefixes.Any(e => method.Identifier.ValueText.StartsWith(e));
-            if(!hasValidPrefix) {
-                var valid = string.Join(" or ", validPrefixes);
-                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText, valid));
+            if(hasValidPrefix) {
+                return;
             }
+            var valid = string.Join(" or ", validPrefixes);
+            context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText, valid));
         }
 
         private readonly Dictionary<string, List<string>> prefixLookup = new Dictionary<string, List<string>>() {

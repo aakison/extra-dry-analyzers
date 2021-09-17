@@ -35,9 +35,10 @@ namespace ExtraDry.Analyzers {
             }
             var typeName = firstParameter.Type.ToString();
             var isInt = intTypes.Any(e => e == typeName);
-            if(isInt) {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
+            if(!isInt) {
+                return;
             }
+            context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
         }
 
         private static readonly List<string> intTypes = new List<string> { "int", "long", "Int32", "Int64", "short", "Int16", "unsigned", "Uint32" };

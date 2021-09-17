@@ -32,7 +32,7 @@ namespace ExtraDry.Analyzers {
             if(hasConsumesAttribute) {
                 return;
             }
-            var _class = method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            var _class = ClassForMethod(method);
             var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
             if(hasApiController) {
                 context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));

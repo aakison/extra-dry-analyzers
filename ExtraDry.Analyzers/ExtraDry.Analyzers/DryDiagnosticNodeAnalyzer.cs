@@ -185,5 +185,11 @@ namespace ExtraDry.Analyzers
             return false;
         }
 
+        protected static ClassDeclarationSyntax ClassForMethod(MethodDeclarationSyntax method)
+        {
+            return method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+        }
+
+
     }
 }
