@@ -34,6 +34,6 @@ $semanticVersion = "$majorVersion.$minorVersion.$patchVersion-$prereleaseVersion
 
 Write-Host "Semenatic version is $semanticVersion"
 
-dotnet pack .\ExtraDry.Analyzers.Package\ExtraDry.Analyzers.Package.csproj -p:PackageVersion=$semanticVersion
+dotnet pack .\ExtraDry.Analyzers\ExtraDry.Analyzers.Package\ExtraDry.Analyzers.Package.csproj -p:PackageVersion=$semanticVersion
 
-nuget add .\ExtraDry.Analyzers.Package\bin\Debug\ExtraDry.Analyzers.$semanticVersion.nupkg -source $env:USERPROFILE\Repos\Nuget\
+nuget add .\ExtraDry.Analyzers\ExtraDry.Analyzers.Package\bin\Debug\ExtraDry.Analyzers.$semanticVersion.nupkg -source $env:USERPROFILE\Repos\Nuget\
