@@ -1,0 +1,45 @@
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ExtraDry.Analyzers {
+
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
+    public class HttpUpdateVerbsShouldNotHaveProduces : DryDiagnosticNodeAnalyzer {
+
+        public HttpUpdateVerbsShouldNotHaveProduces() : base(
+            SyntaxKind.MethodDeclaration,
+            1110,
+            DryAnalyzerCategory.ApiUsage,
+            DiagnosticSeverity.Info,
+            "HttpPost, HttpPut, and HttpPatch actions should not have Produces attribute",
+            "Method `{0}` should not declare that it produces a response body.",
+            "The Produces attribute indicates to API consumers what the type of the response payload will be.  Updating actions should not have a response body."
+            )
+        { }
+
+        public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
+        {
+            var method = (MethodDeclarationSyntax)context.Node;
+            var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpPost", "HttpPut", "HttpPatch", "HttpDelete");
+            if(!hasVerbAttribute) {
+                return;
+            }
+            var _class = ClassForMethod(method);
+            var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
+            if(!hasApiController) {
+                return;
+            }
+            var actionHasConsumesAttribute = HasAnyAttribute(context, method, out var _, "Produces");
+            var controllerHasConsumesAttribute = HasAnyAttribute(context, _class, out var _, "Produces");
+            if(!actionHasConsumesAttribute && !controllerHasConsumesAttribute) {
+                return;
+            }
+            context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
+        }
+
+    }
+}
