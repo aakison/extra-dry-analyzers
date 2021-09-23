@@ -121,6 +121,14 @@ public class ConsumesAttribute : Attribute
     public int ConsumesActionConstraintOrder { get; set; }
 }
 
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class ProducesAttribute : Attribute
+{
+    public ProducesAttribute(string contentType, params string[] otherTypes) {}
+
+    public int StatusCode { get; set; }
+}
+
 public class ControllerBase {}
 
 public class Controller : ControllerBase {}
