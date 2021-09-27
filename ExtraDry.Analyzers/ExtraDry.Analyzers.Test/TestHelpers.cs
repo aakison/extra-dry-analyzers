@@ -126,6 +126,8 @@ public class ProducesAttribute : Attribute
 {
     public ProducesAttribute(string contentType, params string[] otherTypes) {}
 
+    public ProducesAttribute(Type type) {}
+
     public int StatusCode { get; set; }
 }
 

@@ -7,5 +7,6 @@
         Naming,
         Security,
         ApiUsage,
+        OpenApiDocs,
     }
 }
