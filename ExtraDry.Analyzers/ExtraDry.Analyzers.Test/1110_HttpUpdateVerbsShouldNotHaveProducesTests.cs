@@ -43,7 +43,6 @@ public class SampleController : Controller {{
         }
 
         [Theory]
-        [InlineData("HttpPost")]
         [InlineData("HttpPatch")]
         [InlineData("HttpPut")]
         [InlineData("HttpDelete")]
@@ -60,7 +59,6 @@ public class SampleController {{
         }
 
         [Theory]
-        [InlineData("HttpPost")]
         [InlineData("HttpPatch")]
         [InlineData("HttpPut")]
         [InlineData("HttpDelete")]

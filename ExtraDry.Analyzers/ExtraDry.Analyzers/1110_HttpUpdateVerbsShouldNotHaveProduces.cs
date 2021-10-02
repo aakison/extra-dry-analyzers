@@ -15,7 +15,7 @@ namespace ExtraDry.Analyzers {
             1110,
             DryAnalyzerCategory.ApiUsage,
             DiagnosticSeverity.Info,
-            "HttpPost, HttpPut, and HttpPatch actions should not have Produces attribute",
+            "HttpPut, and HttpPatch actions should not have Produces attribute",
             "Method `{0}` should not declare that it produces a response body.",
             "The Produces attribute indicates to API consumers what the type of the response payload will be.  Updating actions should not have a response body."
             )
@@ -24,7 +24,7 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpPost", "HttpPut", "HttpPatch", "HttpDelete");
+            var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpPut", "HttpPatch", "HttpDelete");
             if(!hasVerbAttribute) {
                 return;
             }
