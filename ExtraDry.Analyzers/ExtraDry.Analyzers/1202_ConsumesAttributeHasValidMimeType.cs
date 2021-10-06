@@ -2,27 +2,30 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ExtraDry.Analyzers {
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class ProducesAttributeHasValidMimeType : DryDiagnosticNodeAnalyzer {
+    public class ConsumesAttributeHasValidMimeType : DryDiagnosticNodeAnalyzer {
 
-        public ProducesAttributeHasValidMimeType() : base(
+        public ConsumesAttributeHasValidMimeType() : base(
             SyntaxKind.MethodDeclaration,
-            1201,
+            1202,
             DryAnalyzerCategory.OpenApiDocs,
             DiagnosticSeverity.Warning,
-            "ProducesAttribute should have a preferred mime type.",
-            "ProducesAttribute should have either 'application/json' or 'application/octet-stream'.",
-            "The Produces attribute indicates to API consumers what the type of the response payload will be.  Consumers have specific expectations on these types and limiting to the smallest set of necessary mime types simplifies API consumption."
+            "ConsumesAttribute should have a preferred mime type.",
+            "ConsumesAttribute should have either 'application/json' or 'multipart/form-data'.",
+            "The Consumes attribute indicates to API consumers what the type of the response payload will be.  Consumers have specific expectations on these types and limiting to the smallest set of necessary mime types simplifies API consumption."
             )
         { }
 
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var hasProducesAttribute = HasAnyAttribute(context, method, out var producesAttribute, "Produces");
+            var hasProducesAttribute = HasAnyAttribute(context, method, out var producesAttribute, "Consumes");
             if(!hasProducesAttribute) {
                 return;
             }
@@ -35,7 +38,7 @@ namespace ExtraDry.Analyzers {
                 var argument = FirstArgument(producesAttribute);
                 if(argument is LiteralExpressionSyntax stringArgument) {
                     var literalValue = stringArgument.Token.ValueText;
-                    if(literalValue == "application/json" || literalValue == "application/octet-stream") {
+                    if(literalValue == "application/json" || literalValue == "multipart/form-data") {
                         return;
                     }
                 }
