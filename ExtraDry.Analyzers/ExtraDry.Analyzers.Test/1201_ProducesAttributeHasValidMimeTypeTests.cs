@@ -8,29 +8,33 @@ namespace ExtraDry.Analyzers.Test
     public class ProducesAttributeHasValidMimeTypeTests {
 
         [Theory]
-        [InlineData("application/json")]
-        [InlineData("application/octet-stream")]
+        [InlineData(@"""application/json""")]
+        [InlineData(@"""application/octet-stream""")]
+        [InlineData("MediaTypeNames.Application.Json")]
+        [InlineData("MediaTypeNames.Application.Octet")]
         public async Task AllGood_NoDiagnostic(string mimeType)
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
 [ApiController]
 public class SampleController {{
-    [Produces(""{mimeType}"")]
+    [Produces({mimeType})]
     public void Method(int id) {{}}
 }}
 ");
         }
 
         [Theory]
-        [InlineData("text/json")]
-        [InlineData("application/pdf")]
-        [InlineData("not-even-a-mime-type")]
+        [InlineData(@"""text/json""")]
+        [InlineData(@"""application/pdf""")]
+        [InlineData(@"""not-even-a-mime-type""")]
+        [InlineData(@"""MediaTypeNames.Application.Pdf""")]
+        [InlineData(@"""MediaTypeNames.Text.Plain""")]
         public async Task BadType_Diagnostic(string mimeType)
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
 [ApiController]
 public class SampleController {{
-    [[|Produces(""{mimeType}"")|]]
+    [[|Produces({mimeType})|]]
     public void Method(int id) {{}}
 }}
 ");

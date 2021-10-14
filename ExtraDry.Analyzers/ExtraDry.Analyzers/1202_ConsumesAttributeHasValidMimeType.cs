@@ -42,6 +42,13 @@ namespace ExtraDry.Analyzers {
                         return;
                     }
                 }
+                else if(argument is MemberAccessExpressionSyntax member) {
+                    // e.g. MediaTypeNames.Application.Json
+                    var text = member.Name.Identifier.ValueText;
+                    if(text == "Json") {
+                        return;
+                    }
+                }
             }
             context.ReportDiagnostic(Diagnostic.Create(Rule, producesAttribute.GetLocation()));
         }

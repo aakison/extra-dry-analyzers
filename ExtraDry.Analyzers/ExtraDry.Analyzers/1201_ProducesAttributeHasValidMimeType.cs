@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using System.Linq;
 
 namespace ExtraDry.Analyzers {
 
@@ -34,8 +35,16 @@ namespace ExtraDry.Analyzers {
             if(producesAttribute.ArgumentList?.Arguments.Count == 1) {
                 var argument = FirstArgument(producesAttribute);
                 if(argument is LiteralExpressionSyntax stringArgument) {
+                    // e.g. "application/json"
                     var literalValue = stringArgument.Token.ValueText;
                     if(literalValue == "application/json" || literalValue == "application/octet-stream") {
+                        return;
+                    }
+                }
+                else if(argument is MemberAccessExpressionSyntax member) {
+                    // e.g. MediaTypeNames.Application.Json
+                    var text = member.Name.Identifier.ValueText;
+                    if(text == "Json" || text == "Octet") {
                         return;
                     }
                 }
