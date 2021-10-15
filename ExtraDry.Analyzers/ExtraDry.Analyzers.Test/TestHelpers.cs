@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 namespace ExtraDry.Analyzers.Test {
     public static class TestHelpers {
 
-        public static string Stubs = @"
+        public const string Stubs = @"
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ApiControllerAttribute : Attribute
