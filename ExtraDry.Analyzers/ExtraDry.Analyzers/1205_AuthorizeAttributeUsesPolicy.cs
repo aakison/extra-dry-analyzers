@@ -26,10 +26,10 @@ namespace ExtraDry.Analyzers {
             if(!hasAuthorizeAttribute) {
                 return;
             }
-            //var roleNamed = NamedArgument(authorizeAttribute, "Roles");
+            var roleNamed = NamedArgument(authorizeAttribute, "Roles");
             var policyPositional = FirstArgument(authorizeAttribute);
             var policyNamed = NamedArgument(authorizeAttribute, "Policy");
-            if(policyNamed != null || policyPositional != null) {
+            if(roleNamed == null && (policyNamed != null || policyPositional != null)) {
                 return;
             }
             context.ReportDiagnostic(Diagnostic.Create(Rule, authorizeAttribute.GetLocation(), _method.Identifier.ValueText));

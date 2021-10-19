@@ -66,6 +66,30 @@ public class SampleController {
 ");
         }
 
+        [Fact]
+        public async Task UsesPositionalAndRoles_Diagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[ApiController]
+public class SampleController {
+    [[|Authorize(""policy-name"", Roles = ""role-name"")|]]
+    public void Method(int id) {}
+}
+");
+        }
+
+        [Fact]
+        public async Task UsesBothProperties_Diagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[ApiController]
+public class SampleController {
+    [[|Authorize(Policy = ""policy-name"", Roles = ""role-name"")|]]
+    public void Method(int id) {}
+}
+");
+        }
+
         public string stubs = TestHelpers.Stubs;
 
     }
