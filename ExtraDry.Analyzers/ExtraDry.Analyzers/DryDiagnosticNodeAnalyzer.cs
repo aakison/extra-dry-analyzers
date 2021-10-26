@@ -140,7 +140,7 @@ namespace ExtraDry.Analyzers
             return null;
         }
 
-        protected static bool HasVisibility(MethodDeclarationSyntax method, Visibility visibility)
+        protected static bool HasVisibility(MemberDeclarationSyntax member, Visibility visibility)
         {
             var kind = SyntaxKind.PublicKeyword;
             switch(visibility) {
@@ -157,7 +157,7 @@ namespace ExtraDry.Analyzers
                     kind = SyntaxKind.InternalKeyword;
                     break;
             };
-            return method.ChildTokens()?.Any(e => e.Kind() == kind) ?? false;
+            return member.ChildTokens()?.Any(e => e.Kind() == kind) ?? false;
         }
 
         protected static bool IsStatic(MethodDeclarationSyntax method)

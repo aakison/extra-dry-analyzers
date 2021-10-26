@@ -5,7 +5,7 @@ using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
 
 namespace ExtraDry.Analyzers.Test
 {
-    public class AuthorizeAttributePolicyPositional {
+    public class AuthorizeAttributePolicyPositionalTests {
 
         [Fact]
         public async Task UsesConstructor_NoDiagnostic()
