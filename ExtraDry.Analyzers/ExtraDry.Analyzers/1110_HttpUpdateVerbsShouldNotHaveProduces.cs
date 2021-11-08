@@ -28,7 +28,7 @@ namespace ExtraDry.Analyzers {
             if(!hasVerbAttribute) {
                 return;
             }
-            var _class = ClassForMethod(method);
+            var _class = ClassForMember(method);
             var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
             if(!hasApiController) {
                 return;

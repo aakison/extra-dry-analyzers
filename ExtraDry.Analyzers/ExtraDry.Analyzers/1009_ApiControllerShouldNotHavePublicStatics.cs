@@ -30,7 +30,7 @@ namespace ExtraDry.Analyzers {
             if(!isStatic) {
                 return;
             }
-            var _class = ClassForMethod(method);
+            var _class = ClassForMember(method);
             var isApiController = HasAttribute(context, _class, "ApiController", out var _);
             if(!isApiController) {
                 return;

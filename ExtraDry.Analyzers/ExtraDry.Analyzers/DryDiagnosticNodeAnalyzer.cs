@@ -81,6 +81,18 @@ namespace ExtraDry.Analyzers
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
+        protected bool HasAttribute(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, string attributeName, out AttributeSyntax attribute)
+        {
+            return HasAnyAttribute(context, property, out attribute, attributeName);
+        }
+
+        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, out AttributeSyntax attribute, params string[] attributeNames)
+        {
+            var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
+            var attributes = property.AttributeLists.SelectMany(e => e.Attributes);
+            return AnyAttributeMatches(context, out attribute, fullNames, attributes);
+        }
+
         private static bool AnyAttributeMatches(SyntaxNodeAnalysisContext context, out AttributeSyntax attribute, IEnumerable<string> fullNames, IEnumerable<AttributeSyntax> attributes)
         {
             foreach(var attr in attributes) {
@@ -185,9 +197,9 @@ namespace ExtraDry.Analyzers
             return false;
         }
 
-        protected static ClassDeclarationSyntax ClassForMethod(MethodDeclarationSyntax method)
+        protected static ClassDeclarationSyntax ClassForMember(SyntaxNode member)
         {
-            return method.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
+            return member.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
         }
 
 

@@ -5,7 +5,7 @@ using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
 
 namespace ExtraDry.Analyzers.Test
 {
-    public class PocoGuidPropertyNaming {
+    public class PocoGuidPropertyNamingTests {
 
         [Fact]
         public async Task NotPublic_NoDiagnostic()

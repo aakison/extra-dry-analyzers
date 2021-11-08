@@ -25,7 +25,7 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var _class = ClassForMethod(method);
+            var _class = ClassForMember(method);
             if(_class == null) {
                 return;
             }
