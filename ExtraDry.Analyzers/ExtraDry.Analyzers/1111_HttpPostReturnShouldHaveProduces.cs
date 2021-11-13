@@ -33,10 +33,9 @@ namespace ExtraDry.Analyzers {
                     return;
                 }
             }
-            if(method.ReturnType is IdentifierNameSyntax identifier) {
-                if(identifier.Identifier.ValueText == "Task") {
-                    return;
-                }
+            var returnsTask = AnyReturnMatches(method, out var _, "Task");
+            if(returnsTask) { 
+                return;
             }
             var hasProducesAttribute = HasAnyAttribute(context, method, out var _, "Produces");
             if(hasProducesAttribute) {

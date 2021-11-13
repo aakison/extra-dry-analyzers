@@ -202,6 +202,17 @@ namespace ExtraDry.Analyzers
             return member.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
         }
 
+        protected bool AnyReturnMatches(MethodDeclarationSyntax method, out IdentifierNameSyntax identifier, params string[] objectNames)
+        {
+            identifier = null;
+            if(method.ReturnType is IdentifierNameSyntax ident) {
+                if(objectNames.Any(e => e == ident.Identifier.ValueText)) {
+                    identifier = ident;
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 }
