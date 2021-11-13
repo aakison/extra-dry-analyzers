@@ -30,7 +30,7 @@ namespace ExtraDry.Analyzers {
             if(!hasSkipAttribute) {
                 return;
             }
-            context.ReportDiagnostic(Diagnostic.Create(Rule, skipAttribute.GetLocation(), skipAttribute.Name.ToFullString(), method.Identifier.ValueText));
+            context.ReportDiagnostic(Diagnostic.Create(Rule, skipAttribute.GetLocation(), method.Identifier.ValueText));
         }
 
     }
