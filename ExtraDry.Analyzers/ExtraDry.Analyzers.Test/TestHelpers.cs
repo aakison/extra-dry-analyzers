@@ -159,6 +159,17 @@ public static class MediaTypeNames {
     }
 }
 
+[AttributeUsage(AttributeTargets.Property)]
+public class JsonIgnoreAttribute : Attribute { }
+
+[AttributeUsage(AttributeTargets.Property)]
+public class KeyAttribute : Attribute {}
+
+// Stubs from ExtraDry.Core
+public class UriReference {}
+public class WebIdReference {}
+public class UuidReference {}
+
 ";
 
     }

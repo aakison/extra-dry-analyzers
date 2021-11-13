@@ -17,7 +17,7 @@ namespace ExtraDry.Analyzers {
             DiagnosticSeverity.Info,
             "HttpPut, and HttpPatch actions should not have Produces attribute",
             "Method `{0}` should not declare that it produces a response body.",
-            "The Produces attribute indicates to API consumers what the type of the response payload will be.  Updating actions should not have a response body."
+            "The Produces attribute indicates to API consumers what the type of the response payload will be.  Updating actions should not have a response body with the possible exception of changing Ids which should be communicated to clients (typically only ever a web-friendly Id)."
             )
         { }
 
@@ -36,6 +36,10 @@ namespace ExtraDry.Analyzers {
             var actionHasConsumesAttribute = HasAnyAttribute(context, method, out var _, "Produces");
             var controllerHasConsumesAttribute = HasAnyAttribute(context, _class, out var _, "Produces");
             if(!actionHasConsumesAttribute && !controllerHasConsumesAttribute) {
+                return;
+            }
+            var idPayloadReturn = AnyReturnMatches(method, out var _, "UriReference", "UuidReference", "WebIdReference");
+            if(idPayloadReturn) {
                 return;
             }
             context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
