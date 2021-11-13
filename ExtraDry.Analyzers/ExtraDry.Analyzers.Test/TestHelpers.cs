@@ -165,6 +165,9 @@ public class JsonIgnoreAttribute : Attribute { }
 [AttributeUsage(AttributeTargets.Property)]
 public class KeyAttribute : Attribute {}
 
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class SkipStatusCodePagesAttribute : Attribute {}
+
 // Stubs from ExtraDry.Core
 public class UriReference {}
 public class WebIdReference {}
