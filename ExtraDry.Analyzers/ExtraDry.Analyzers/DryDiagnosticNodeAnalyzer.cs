@@ -81,6 +81,23 @@ namespace ExtraDry.Analyzers
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
+        protected bool HasAttribute(SyntaxNodeAnalysisContext context, EnumDeclarationSyntax _enum, string attributeName, out AttributeSyntax attribute)
+        {
+            return HasAnyAttribute(context, _enum, out attribute, attributeName);
+        }
+
+        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, EnumDeclarationSyntax _enum, out AttributeSyntax attribute, params string[] attributeNames)
+        {
+            if(attributeNames == null || !attributeNames.Any() || _enum == null) {
+                attribute = null;
+                return false;
+            }
+            var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
+            var attributes = _enum.AttributeLists.SelectMany(e => e.Attributes) ?? Array.Empty<AttributeSyntax>();
+            return AnyAttributeMatches(context, out attribute, fullNames, attributes);
+        }
+
+
         private static bool AnyAttributeMatches(SyntaxNodeAnalysisContext context, out AttributeSyntax attribute, IEnumerable<string> fullNames, IEnumerable<AttributeSyntax> attributes)
         {
             foreach(var attr in attributes) {

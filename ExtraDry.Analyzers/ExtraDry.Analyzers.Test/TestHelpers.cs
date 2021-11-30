@@ -173,6 +173,18 @@ public class UriReference {}
 public class WebIdReference {}
 public class UuidReference {}
 
+[AttributeUsage(AttributeTargets.Enum)]
+public class JsonConverterAttribute : Attribute {
+    public JsonConverterAttribute() {}
+    public JsonConverterAttribute(Type type) {}
+}
+
+public class JsonConverter {}
+
+public class JsonConverter<T> {}
+
+public class JsonStringEnumConverter {}
+
 ";
 
     }
