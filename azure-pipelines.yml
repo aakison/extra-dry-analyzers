@@ -62,14 +62,14 @@ steps:
   displayName: Build
   inputs:
     projects: $(projectsGlob)
-    arguments: '--configuration $(BuildConfiguration)'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
 
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
     command: test
     projects: '**/*Test/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)' # TODO: --collect "Code coverage"???
+    arguments: '--configuration $(BuildConfiguration)' --no-build # TODO: --collect "Code coverage"???
 
 - task: PowerShell@2
   name: GitSemVer
