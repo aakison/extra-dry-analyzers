@@ -11,7 +11,7 @@ namespace ExtraDry.Analyzers {
 
         public EnumShouldHaveJsonConverter() : base(
             SyntaxKind.EnumDeclaration,
-            1301,
+            1302,
             DryAnalyzerCategory.OpenApiDocs,
             DiagnosticSeverity.Info,
             "Enum should be decoreated with JsonConverter.",
