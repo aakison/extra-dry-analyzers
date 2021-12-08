@@ -69,7 +69,7 @@ steps:
   inputs:
     command: test
     projects: '**/*Test/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)' --no-build # TODO: --collect "Code coverage"???
+    arguments: '--configuration $(BuildConfiguration)' --no-build
 
 - task: PowerShell@2
   name: GitSemVer
