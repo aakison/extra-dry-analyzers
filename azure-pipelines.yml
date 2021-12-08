@@ -69,7 +69,7 @@ steps:
   inputs:
     command: test
     projects: '**/*Test/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)' --no-build
+    arguments: '--configuration $(BuildConfiguration) --no-build'
 
 - task: PowerShell@2
   name: GitSemVer
