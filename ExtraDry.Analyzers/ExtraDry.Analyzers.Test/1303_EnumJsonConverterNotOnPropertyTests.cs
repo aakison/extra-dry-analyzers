@@ -13,9 +13,15 @@ namespace ExtraDry.Analyzers.Test
         public async Task NotPublicInNamespace_NoDiagnostic(string visibility)
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @$"
-{visibility} enum SampleEnum {{
+public enum SampleEnum {{
     ValueOne,
     ValueTwo,
+}}
+
+{visibility} class Container {{
+    
+    public SampleEnum SampleEnum {{ get; set; }}
+
 }}
 ");
         }
@@ -29,24 +35,29 @@ namespace ExtraDry.Analyzers.Test
         public async Task NotPublicInClass_NoDiagnostic(string visibility)
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @$"
+public enum SampleEnum {{
+    ValueOne,
+    ValueTwo,
+}}
+
 public class SampleContainer {{
-    {visibility} enum SampleEnum {{
-        ValueOne,
-        ValueTwo,
-    }}
+    {visibility} SampleEnum SampleEnum {{ get; set; }}
 }}
 ");
         }
 
 
         [Fact]
-        public async Task HasRecommendedJsonConverter_NoDiagnostic()
+        public async Task HasNoJsonConverter_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SampleEnum {
     ValueOne,
     ValueTwo,
+}
+
+public class Container {
+    public SampleEnum SampleEnum { get; set; }
 }
 ");
         }
@@ -59,21 +70,34 @@ public enum SampleEnum {
 public class CustomEnumConverter : JsonConverter<SampleEnum> {
 }
 
-[JsonConverter(typeof(CustomEnumConverter))]
 public enum SampleEnum {
     ValueOne,
     ValueTwo,
+}
+
+public class Container {
+
+    [JsonConverter(typeof(CustomEnumConverter))]
+    public SampleEnum SampleEnum { get; set; }
+
 }
 ");
         }
 
         [Fact]
-        public async Task EnumHasNoConverter_Diagnostic()
+        public async Task PropertyHasJsonStringConverter_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public enum [|SampleEnum|] {
+public enum SampleEnum {
     ValueOne,
     ValueTwo,
+}
+
+public class Container {
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public SampleEnum [|SampleEnum|] { get; set; }
+
 }
 ");
         }

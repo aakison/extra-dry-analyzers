@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System;
+using System.Linq;
 
 namespace ExtraDry.Analyzers {
 
@@ -22,17 +23,33 @@ namespace ExtraDry.Analyzers {
 
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var _enum = (EnumDeclarationSyntax)context.Node;
-            var isPublic = HasVisibility(_enum, Visibility.Public);
+            var property = (PropertyDeclarationSyntax)context.Node;
+            var isPublic = HasVisibility(property, Visibility.Public);
             if(!isPublic) {
                 return;
             }
-            var isDecorated = HasAttribute(context, _enum, "JsonConverter", out var _);
-            if(isDecorated) {
+            var isDecorated = HasAttribute(context, property, "JsonConverter", out var jsonConverterAttribute);
+            if(!isDecorated) {
                 return;
             }
-            context.ReportDiagnostic(Diagnostic.Create(Rule, _enum.Identifier.GetLocation(), _enum.Identifier.ValueText));
+            var _class = ClassForMember(property);
+            if(!HasVisibility(_class, Visibility.Public)) {
+                return;
+            }
+            var converterArgument = FirstArgument(jsonConverterAttribute);
+            if(converterArgument == null) {
+                return;
+            }
+            var converterType = converterArgument.DescendantNodes().FirstOrDefault(e => e.IsKind(SyntaxKind.IdentifierName)) as IdentifierNameSyntax;
+            if(converterType == null) {
+                return;
+            }
+            if(converterType.Identifier .ValueText != "JsonStringEnumConverter") {
+                return; // custom converters not covered here.
+            }
+            context.ReportDiagnostic(Diagnostic.Create(Rule, property.Identifier.GetLocation(), property.Identifier.ValueText));
         }
 
     }
+
 }
