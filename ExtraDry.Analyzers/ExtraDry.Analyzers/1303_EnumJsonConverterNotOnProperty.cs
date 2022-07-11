@@ -44,7 +44,7 @@ namespace ExtraDry.Analyzers {
             if(converterType == null) {
                 return;
             }
-            if(converterType.Identifier .ValueText != "JsonStringEnumConverter") {
+            if(converterType.Identifier.ValueText != "JsonStringEnumConverter") {
                 return; // custom converters not covered here.
             }
             context.ReportDiagnostic(Diagnostic.Create(Rule, property.Identifier.GetLocation(), property.Identifier.ValueText));
