@@ -26,8 +26,8 @@ namespace ExtraDry.Analyzers {
             if(!hasApiControllerAttribute) {
                 return;
             }
-            var hasSkipAttribute = HasAttribute(context, _class, "SkipStatusCodePages", out var _);
-            if(hasSkipAttribute) {
+            var hasSkipOrApiException = HasAnyAttribute(context, _class, out var _, "SkipStatusCodePages", "ApiExceptionStatusCodes");
+            if(hasSkipOrApiException) {
                 return;
             }
             context.ReportDiagnostic(Diagnostic.Create(Rule, _class.Identifier.GetLocation(), _class.Identifier.ValueText));

@@ -34,6 +34,18 @@ public class SampleController {
         }
 
         [Fact]
+        public async Task DontIndicateIfApiExceptionStatusCodes_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[ApiController, ApiExceptionStatusCodes]
+public class SampleController {
+    [HttpGet(""abc"")]
+    public void Retrieve(int id) {}
+}
+");
+        }
+
+        [Fact]
         public async Task MissingAttribute_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
