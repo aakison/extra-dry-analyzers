@@ -168,6 +168,9 @@ public class KeyAttribute : Attribute {}
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class SkipStatusCodePagesAttribute : Attribute {}
 
+[AttributeUsage(AttributeTargets.Class)]
+public class ApiExceptionStatusCodesAttribute : Attribute {}
+
 // Stubs from ExtraDry.Core
 public class UriReference {}
 public class WebIdReference {}
