@@ -182,6 +182,12 @@ public class JsonConverterAttribute : Attribute {
     public JsonConverterAttribute(Type type) {}
 }
 
+[AttributeUsage(AttributeTargets.Class)]
+public class ApiExplorerSettingsAttribute : Attribute {
+    public ApiExplorerSettingsAttribute() {}
+    public bool IgnoreApi { get; set; }
+}
+
 public class JsonConverter {}
 
 public class JsonConverter<T> {}
