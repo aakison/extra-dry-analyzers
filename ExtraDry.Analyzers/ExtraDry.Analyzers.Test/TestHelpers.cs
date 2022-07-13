@@ -194,6 +194,9 @@ public class JsonConverter<T> {}
 
 public class JsonStringEnumConverter {}
 
+[AttributeUsage(AttributeTargets.Method)]
+public class ValidateAntiForgeryTokenAttribute : Attribute {}
+
 ";
 
     }
