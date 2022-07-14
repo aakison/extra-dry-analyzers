@@ -6,11 +6,11 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace ExtraDry.Analyzers {
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class ApiControllerShouldNotHaveAllowAnonymous : DryDiagnosticNodeAnalyzer {
+    public class MvcControllerShouldNotHaveAllowAnonymous : DryDiagnosticNodeAnalyzer {
 
-        public ApiControllerShouldNotHaveAllowAnonymous() : base(
+        public MvcControllerShouldNotHaveAllowAnonymous() : base(
             SyntaxKind.ClassDeclaration,
-            1007,
+            1407,
             DryAnalyzerCategory.Security,
             DiagnosticSeverity.Warning,
             "API Controller Classes should not default all methods to AllowAnonymous",
@@ -26,8 +26,8 @@ namespace ExtraDry.Analyzers {
             if(!hasAllowAnonymous) {
                 return;
             }
-            var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
-            if(!hasApiController) {
+            var isMvcController = InheritsFrom(context, _class, "Controller");
+            if(!isMvcController) {
                 return;
             }
             context.ReportDiagnostic(Diagnostic.Create(Rule, attribute.GetLocation(), _class.Identifier.ValueText));
