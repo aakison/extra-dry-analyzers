@@ -14,7 +14,7 @@ namespace ExtraDry.Analyzers {
             DryAnalyzerCategory.Security,
             DiagnosticSeverity.Warning,
             "AuthorizeAttribute policies should use shared constant and not string literals.",
-            "AuthorizeAttribute on method {0} should use a policy.",
+            "AuthorizeAttribute on method {0} should use a constant and not a string literal.",
             "The Authorize attribute policies are keyed by shared names that are used to lookup requirements.  The use of string literals as 'magic strings' to key these items is prone to error when adding and editing code.  Instead, use a compile-time checked substitute such as a `const` value or using `nameof` with an associated requirement."
             )
         { }
