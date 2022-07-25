@@ -197,6 +197,10 @@ public class JsonStringEnumConverter {}
 [AttributeUsage(AttributeTargets.Method)]
 public class ValidateAntiForgeryTokenAttribute : Attribute {}
 
+public class DbContext {}
+
+public class SampleContext : DbContext {}
+
 ";
 
     }

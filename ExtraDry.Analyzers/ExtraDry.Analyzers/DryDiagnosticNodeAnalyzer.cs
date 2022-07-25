@@ -152,6 +152,25 @@ namespace ExtraDry.Analyzers
             }
         }
 
+        protected ParameterSyntax FirstTypeParameter(SyntaxNodeAnalysisContext context, BaseMethodDeclarationSyntax method, string typeName)
+        {
+            if(method == null) {
+                return null;
+            }
+            // Use parallel arrays to correlate semantic model with syntax model for paramter.
+            var parameters = method.ParameterList?.Parameters.ToList();
+            var semanticMethod = context.SemanticModel.GetDeclaredSymbol(method);
+            var semanticParameters = semanticMethod.ConstructedFrom.Parameters.ToList();
+            for(int i = 0; i < semanticParameters.Count; ++i) {
+                var semanticParam = semanticParameters[i];
+                var isChild = Inherits(semanticParam.Type, typeName);
+                if(isChild) {
+                    return parameters[i];
+                }
+            }
+            return null;
+        }
+
         protected ExpressionSyntax NamedArgument(AttributeSyntax attribute, string argumentName)
         {
             if(attribute == null) {
