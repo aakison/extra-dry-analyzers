@@ -171,6 +171,18 @@ namespace ExtraDry.Analyzers
             return null;
         }
 
+        protected bool PropertyInheritsFrom(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, string typeName)
+        {
+            if(property == null) {
+                return false;
+            }
+            var semanticProperty = context.SemanticModel.GetDeclaredSymbol(property);
+            if(semanticProperty == null) {
+                return false;
+            }
+            return Inherits(semanticProperty.Type, typeName);
+        }
+
         protected ExpressionSyntax NamedArgument(AttributeSyntax attribute, string argumentName)
         {
             if(attribute == null) {
