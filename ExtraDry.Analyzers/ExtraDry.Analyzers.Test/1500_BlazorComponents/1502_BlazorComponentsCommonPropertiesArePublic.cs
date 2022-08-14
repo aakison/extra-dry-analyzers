@@ -10,6 +10,7 @@ namespace ExtraDry.Analyzers.Test
 
         [Theory]
         [InlineData("CssClass")]
+        [InlineData("UnmatchedAttributes")]
         [InlineData("Placeholder")]
         public async Task AllGood_NoDiagnostic(string name)
         {
@@ -57,6 +58,7 @@ public class SampleComponent : ComponentBase {{
         [Theory]
         [InlineData("CssClass")]
         [InlineData("Placeholder")]
+        [InlineData("UnmatchedAttributes")]
         public async Task NotPublicCssClassPropertyName_Diagnostic(string name)
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + $@"

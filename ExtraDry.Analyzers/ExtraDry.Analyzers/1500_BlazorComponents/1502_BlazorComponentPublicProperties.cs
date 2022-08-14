@@ -47,6 +47,6 @@ namespace ExtraDry.Analyzers {
             context.ReportDiagnostic(Diagnostic.Create(Rule, property.Identifier.GetLocation(), property.Identifier.ValueText));
         }
 
-        public string[] commonProperties = { "CssClass", "Placeholder" };
+        public string[] commonProperties = { "CssClass", "Placeholder", "UnmatchedAttributes" };
     }
 }

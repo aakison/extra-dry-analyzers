@@ -5,7 +5,7 @@ using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
 
 namespace ExtraDry.Analyzers.Test
 {
-    public class ApiControllersShouldNotInheritComponentBaseTests {
+    public class ApiControllersShouldNotInheritControllerBaseTests {
 
         [Fact]
         public async Task NotApplicable_NoDiagnostic()

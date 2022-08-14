@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Xunit;
 using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
-    ExtraDry.Analyzers.BlazorComponentShouldHaveCssClass>;
+    ExtraDry.Analyzers.BlazorComponentShouldHaveCommonProperties>;
 
 namespace ExtraDry.Analyzers.Test
 {
     
-    public class BlazorComponentsShouldHaveCssClassTests {
+    public class BlazorComponentShouldHaveCommonPropertiesTests {
 
         [Fact]
         public async Task AllGood_NoDiagnostic()
@@ -14,6 +14,7 @@ namespace ExtraDry.Analyzers.Test
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 public class SampleComponent : ComponentBase {
     public string CssClass { get; set; }
+    public Dictionary<string, object> UnmatchedAttributes { get; set; }
 }
 ");
         }
@@ -23,7 +24,7 @@ public class SampleComponent : ComponentBase {
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 public class SampleComponent {
-    public string NotCssClass { get; set; }
+    public string NotCommon { get; set; }
 }
 ");
         }
@@ -33,22 +34,33 @@ public class SampleComponent {
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 public abstract class SampleComponent : ComponentBase {
-    public string NotCssClass { get; set; }
+    public string NotCommon { get; set; }
 }
 ");
         }
-
 
         [Fact]
         public async Task MissingCssClassProperty_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 public class [|SampleComponent|] : ComponentBase {
-    public string NotCssClass { get; set; }
+    public string NotCommon { get; set; }
+    public Dictionary<string, object> UnmatchedAttributes { get; set; }
 }
 ");
         }
 
+        [Fact]
+        public async Task MissingUnmatchedAttributesProperty_Diagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+public class [|SampleComponent|] : ComponentBase {
+    public string CssClass { get; set; }
+    public Dictionary<string, object> NotUnmatchedAttributes { get; set; }
+}
+");
+        }
+        
         public string stubs = TestHelpers.Stubs;
 
     }
