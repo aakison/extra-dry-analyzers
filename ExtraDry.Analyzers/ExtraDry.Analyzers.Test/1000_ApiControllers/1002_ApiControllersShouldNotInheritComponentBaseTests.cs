@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Xunit;
 using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
-    ExtraDry.Analyzers.ApiControllersShouldNotInheritComponent>;
+    ExtraDry.Analyzers.ApiControllersShouldNotInheritControllerBase>;
 
 namespace ExtraDry.Analyzers.Test
 {
-    public class ApiControllersShouldNotInheritComponentTests {
+    public class ApiControllersShouldNotInheritComponentBaseTests {
 
         [Fact]
         public async Task NotApplicable_NoDiagnostic()
@@ -31,7 +31,7 @@ public class SampleController {
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 [ApiController]
-public class [|SampleController|] : Controller {
+public class [|SampleController|] : ControllerBase {
 }
 ");
         }
@@ -41,17 +41,27 @@ public class [|SampleController|] : Controller {
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 [ApiController]
-public class [|SampleController|] : DerivedController {
+public class [|SampleController|] : DerivedControllerBase {
 }
 ");
         }
 
         [Fact]
-        public async Task NotControllerBase_NoDiagnostic()
+        public async Task IgnoreWhenControllerWarningWouldOveride_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
 [ApiController]
-public class SampleController : ControllerBase {
+public class SampleController : Controller {
+}
+");
+        }
+
+        [Fact]
+        public async Task IgnoreWhenInheritedControllerWarningWouldOveride_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[ApiController]
+public class SampleController : DerivedController {
 }
 ");
         }
@@ -61,6 +71,7 @@ public class SampleController : ControllerBase {
 public class DerivedControllerBase : ControllerBase {  }
 
 public class DerivedController : Controller {}
+
 ";
 
     }

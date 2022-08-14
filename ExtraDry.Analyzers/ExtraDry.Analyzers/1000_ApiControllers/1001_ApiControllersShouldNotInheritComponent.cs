@@ -6,9 +6,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace ExtraDry.Analyzers {
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class ApiControllersShouldNotInheritComponent : DryDiagnosticNodeAnalyzer {
+    public class ApiControllersShouldNotInheritController : DryDiagnosticNodeAnalyzer {
 
-        public ApiControllersShouldNotInheritComponent() : base(
+        public ApiControllersShouldNotInheritController() : base(
             SyntaxKind.ClassDeclaration,
             1001,
             DryAnalyzerCategory.Usage,

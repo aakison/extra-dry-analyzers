@@ -27,4 +27,8 @@
     <ProjectReference Include="..\ExtraDry.Analyzers\ExtraDry.Analyzers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="1500_BlazorComponents\" />
+  </ItemGroup>
+
 </Project>
