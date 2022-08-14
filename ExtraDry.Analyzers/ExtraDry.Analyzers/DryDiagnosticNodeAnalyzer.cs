@@ -220,6 +220,11 @@ namespace ExtraDry.Analyzers
             return member.ChildTokens()?.Any(e => e.Kind() == kind) ?? false;
         }
 
+        protected static bool IsAbstract(MemberDeclarationSyntax member)
+        {
+            return member.ChildTokens()?.Any(e => e.Kind() == SyntaxKind.AbstractKeyword) ?? false;
+        }
+
         protected static bool IsStatic(MethodDeclarationSyntax method)
         {
             return method.ChildTokens()?.Any(e => e.Kind() == SyntaxKind.StaticKeyword) ?? false;

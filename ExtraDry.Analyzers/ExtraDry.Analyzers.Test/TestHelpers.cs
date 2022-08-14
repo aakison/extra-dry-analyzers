@@ -204,6 +204,8 @@ public class SampleContext : DbContext {}
 [AttributeUsage(AttributeTargets.Property)]
 public class InjectAttribute : Attribute {}
 
+public class ComponentBase {}
+
 ";
 
     }
