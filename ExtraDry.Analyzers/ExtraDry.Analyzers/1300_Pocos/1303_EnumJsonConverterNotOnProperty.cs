@@ -33,6 +33,9 @@ namespace ExtraDry.Analyzers {
                 return;
             }
             var _class = ClassForMember(property);
+            if(_class == null) {
+                return;
+            }
             if(!HasVisibility(_class, Visibility.Public)) {
                 return;
             }

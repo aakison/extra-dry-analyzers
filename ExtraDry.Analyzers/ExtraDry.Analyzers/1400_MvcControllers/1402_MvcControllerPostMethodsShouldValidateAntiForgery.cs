@@ -31,6 +31,9 @@ namespace ExtraDry.Analyzers {
                 return;
             }
             var _class = ClassForMember(method);
+            if(_class == null) {
+                return;
+            }
             var isController = InheritsFrom(context, _class, "Controller");
             if(!isController) {
                 return;

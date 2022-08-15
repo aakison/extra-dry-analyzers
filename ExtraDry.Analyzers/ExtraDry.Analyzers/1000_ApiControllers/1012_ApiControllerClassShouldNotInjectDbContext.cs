@@ -23,6 +23,9 @@ namespace ExtraDry.Analyzers {
         {
             var ctor = (ConstructorDeclarationSyntax)context.Node;
             var _class = ClassForMember(ctor);
+            if(_class == null) {
+                return;
+            }
             var hasApiControllerAttribute = HasAttribute(context, _class, "ApiController", out var _);
             if(!hasApiControllerAttribute) {
                 return;

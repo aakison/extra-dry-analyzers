@@ -232,6 +232,9 @@ namespace ExtraDry.Analyzers
 
         protected bool InheritsFrom(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string baseName)
         {
+            if(_class == null) {
+                return false;
+            }
             var symbol = context.SemanticModel.GetDeclaredSymbol(_class);
             return Inherits(symbol, baseName);
         }
@@ -252,6 +255,9 @@ namespace ExtraDry.Analyzers
 
         protected bool Implements(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string interfaceName)
         {
+            if(_class == null) {
+                return false;
+            }
             var symbol = context.SemanticModel.GetDeclaredSymbol(_class);
             return Implements(symbol, interfaceName);
         }
@@ -269,6 +275,9 @@ namespace ExtraDry.Analyzers
 
         protected static bool InNamespace(ClassDeclarationSyntax _class, string namespaceName)
         {
+            if(_class == null) {
+                return false;
+            }
             var _namespace = (_class.Parent as NamespaceDeclarationSyntax);
             return InNamespace(_namespace?.Name, namespaceName);
         }

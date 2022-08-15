@@ -54,6 +54,16 @@ public class SampleController : Controller {{
 ");
         }
 
+        [Fact]
+        public async Task RealWorldException_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+internal interface IComments {
+    string Placeholder { get; set; }
+}
+");
+        }
+
         public string stubs = TestHelpers.Stubs;
 
     }

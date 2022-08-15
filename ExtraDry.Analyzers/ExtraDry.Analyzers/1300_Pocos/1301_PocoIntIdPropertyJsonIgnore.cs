@@ -37,6 +37,9 @@ namespace ExtraDry.Analyzers {
                 return;
             }
             var _class = ClassForMember(property);
+            if(_class == null) {
+                return;
+            }
             var idByConvention = property.Identifier.ValueText.Equals("Id", StringComparison.OrdinalIgnoreCase) || property.Identifier.ValueText.Equals($"{_class.Identifier}Id", StringComparison.OrdinalIgnoreCase);
             var idByKeyAttribute = HasAttribute(context, property, "Key", out var _);
             if(!idByConvention && !idByKeyAttribute) {

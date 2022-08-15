@@ -24,6 +24,9 @@ namespace ExtraDry.Analyzers {
         {
             var ctor = (ConstructorDeclarationSyntax)context.Node;
             var _class = ClassForMember(ctor);
+            if(_class == null) {
+                return;
+            }
             var isMvc = InheritsFrom(context, _class, "Controller");
             if(!isMvc) {
                 return;
