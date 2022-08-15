@@ -31,6 +31,10 @@ namespace ExtraDry.Analyzers {
             if(!inheritsComponentBase) {
                 return;
             }
+            var implementsExtraDryComponent = Implements(context, _class, "IExtraDryComponent");
+            if(!implementsExtraDryComponent) {
+                return;
+            }
             foreach(var name in names) {
                 var hasCommonProperty = _class.Members.Any(e => (e as PropertyDeclarationSyntax)?.Identifier.ValueText == name);
                 if(hasCommonProperty) {

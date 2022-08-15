@@ -250,6 +250,43 @@ namespace ExtraDry.Analyzers
             return false;
         }
 
+        protected bool Implements(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string interfaceName)
+        {
+            var symbol = context.SemanticModel.GetDeclaredSymbol(_class);
+            return Implements(symbol, interfaceName);
+        }
+
+        private static bool Implements(ITypeSymbol symbol, string interfaceName)
+        {
+            while(symbol?.BaseType != null) {
+                if(symbol.Interfaces.Any(e => e.Name == interfaceName)) {
+                    return true;
+                }
+                symbol = symbol?.BaseType;
+            }
+            return false;
+        }
+
+        protected static bool InNamespace(ClassDeclarationSyntax _class, string namespaceName)
+        {
+            var _namespace = (_class.Parent as NamespaceDeclarationSyntax);
+            return InNamespace(_namespace?.Name, namespaceName);
+        }
+
+        private static bool InNamespace(SyntaxNode _node, string namespaceName)
+        {
+            if(_node == null) {
+                return false;
+            }
+            if(_node is IdentifierNameSyntax identifier) {
+                return identifier.Identifier.ValueText == namespaceName;
+            }
+            if(_node is QualifiedNameSyntax qualified) {
+                return InNamespace(qualified.Left, namespaceName) || InNamespace(qualified.Right, namespaceName);
+            }
+            return false;
+        }
+
         protected static ClassDeclarationSyntax ClassForMember(SyntaxNode member)
         {
             return member.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);

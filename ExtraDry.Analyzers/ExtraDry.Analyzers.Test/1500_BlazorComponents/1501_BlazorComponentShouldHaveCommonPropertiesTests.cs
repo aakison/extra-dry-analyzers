@@ -12,7 +12,7 @@ namespace ExtraDry.Analyzers.Test
         public async Task AllGood_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public class SampleComponent : ComponentBase {
+public class SampleComponent : ComponentBase, IExtraDryComponent {
     public string CssClass { get; set; }
     public Dictionary<string, object> UnmatchedAttributes { get; set; }
 }
@@ -23,7 +23,7 @@ public class SampleComponent : ComponentBase {
         public async Task DontApplyToNonComponentBase_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public class SampleComponent {
+public class SampleComponent : IExtraDryComponent {
     public string NotCommon { get; set; }
 }
 ");
@@ -33,7 +33,7 @@ public class SampleComponent {
         public async Task DontApplyToAbstractClasses_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public abstract class SampleComponent : ComponentBase {
+public abstract class SampleComponent : ComponentBase, IExtraDryComponent {
     public string NotCommon { get; set; }
 }
 ");
@@ -43,7 +43,7 @@ public abstract class SampleComponent : ComponentBase {
         public async Task MissingCssClassProperty_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public class [|SampleComponent|] : ComponentBase {
+public class [|SampleComponent|] : ComponentBase, IExtraDryComponent {
     public string NotCommon { get; set; }
     public Dictionary<string, object> UnmatchedAttributes { get; set; }
 }
@@ -54,7 +54,7 @@ public class [|SampleComponent|] : ComponentBase {
         public async Task MissingUnmatchedAttributesProperty_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public class [|SampleComponent|] : ComponentBase {
+public class [|SampleComponent|] : ComponentBase, IExtraDryComponent {
     public string CssClass { get; set; }
     public Dictionary<string, object> NotUnmatchedAttributes { get; set; }
 }

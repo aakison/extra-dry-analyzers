@@ -206,6 +206,8 @@ public class InjectAttribute : Attribute {}
 
 public class ComponentBase {}
 
+public interface IExtraDryComponent {}
+
 ";
 
     }
