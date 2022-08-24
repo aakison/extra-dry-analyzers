@@ -138,6 +138,23 @@ namespace ExtraDry.Analyzers
             }
         }
 
+        protected ExpressionSyntax NthArgument(AttributeSyntax attribute, int index)
+        {
+            if(attribute == null) {
+                return null;
+            }
+            if(index >= attribute.ArgumentList?.Arguments.Count) {
+                return null;
+            }
+            var nth = attribute?.ArgumentList?.Arguments.Skip(index).FirstOrDefault();
+            if(nth == null || nth.NameEquals != null) {
+                return null;
+            }
+            else {
+                return nth.Expression;
+            }
+        }
+
         protected ParameterSyntax FirstParameter(MethodDeclarationSyntax method)
         {
             if(method == null) {
