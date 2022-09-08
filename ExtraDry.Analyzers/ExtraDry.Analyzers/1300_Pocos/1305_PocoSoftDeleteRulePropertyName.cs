@@ -15,7 +15,7 @@ namespace ExtraDry.Analyzers {
             DryAnalyzerCategory.Usage,
             DiagnosticSeverity.Warning,
             "SoftDelete on classes should use nameof for property names.",
-            "The property name postional argument to SoftDeleteRule class '{0}' should be declared using the `nameof` operator.",
+            "The property name positional argument to SoftDeleteRule class '{0}' should be declared using the `nameof` operator.",
             "SoftDelete properties should be the name of a property on the enclosed class, use the nameof operator provides strong typing ot the name and can prevent bugs when properties are renamed."
             )
         { }
