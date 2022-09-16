@@ -16,7 +16,7 @@ namespace ExtraDry.Analyzers {
             DiagnosticSeverity.Warning,
             "Int IDs should be JsonIgnore.",
             "Int property '{0}' should be decorated with [JsonIgnore].",
-            "The integer Id is typically mapped to a primary key in the database and exposing this information could lead to an enumeration attack.  Create an alternate 'public' Id, such as a Uuid property or a string WebId to expose to through user interface and APIs.  This applies to all Id convenentions used by Entity Framework and other ORMs."
+            "The integer Id is typically mapped to a primary key in the database and exposing this information could lead to an enumeration attack.  Create an alternate 'public' Id, such as a Uuid property or a string WebId to expose through user interface and APIs.  This applies to all Id conventions used by Entity Framework and other ORMs."
             )
         { }
 
