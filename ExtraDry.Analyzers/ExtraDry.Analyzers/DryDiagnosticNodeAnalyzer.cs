@@ -217,7 +217,7 @@ namespace ExtraDry.Analyzers
             return null;
         }
 
-        protected static bool HasVisibility(MemberDeclarationSyntax member, Visibility visibility)
+        protected static bool HasVisibility(CSharpSyntaxNode member, Visibility visibility)
         {
             var kind = SyntaxKind.PublicKeyword;
             switch(visibility) {
@@ -326,6 +326,23 @@ namespace ExtraDry.Analyzers
                     identifier = ident;
                     return true;
                 }
+            }
+            return false;
+        }
+
+        protected bool HasProperty(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax @class, string propertyName)
+        {
+            var symbol = context.SemanticModel?.GetDeclaredSymbol(@class);
+            if(symbol == null) {
+                return false;
+            }
+            var baseClass = symbol;
+            while(baseClass.Name != "Object") {
+                var members = baseClass.MemberNames;
+                if(members.Any(e => e == propertyName)) {
+                    return true;
+                }
+                baseClass = baseClass.BaseType;
             }
             return false;
         }

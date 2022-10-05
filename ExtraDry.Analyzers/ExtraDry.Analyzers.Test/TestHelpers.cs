@@ -236,6 +236,26 @@ public class SoftDeleteRuleAttribute : Attribute {
 }
 #nullable disable
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum RuleAction {
+    Allow,
+    Ignore,
+    IgnoreDefaults,
+    Block,
+    Link,
+}
+
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+public sealed class RulesAttribute : Attribute {
+    public RulesAttribute() { }
+    public RulesAttribute(RuleAction defaultRule) {
+        UpdateAction = defaultRule;
+        CreateAction = defaultRule;
+    }
+    public RuleAction CreateAction { get; set; } = RuleAction.Allow;
+    public RuleAction UpdateAction { get; set; } = RuleAction.Allow;
+}
+
 ";
 
     }
