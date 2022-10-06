@@ -69,15 +69,35 @@ namespace ExtraDry.Analyzers
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
-        protected bool HasAttribute(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, string attributeName, out AttributeSyntax attribute)
+        protected bool HasAttribute(SyntaxNodeAnalysisContext context, MemberDeclarationSyntax method, string attributeName, out AttributeSyntax attribute)
         {
             return HasAnyAttribute(context, method, out attribute, attributeName);
         }
 
-        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax method, out AttributeSyntax attribute, params string[] attributeNames)
+        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, MemberDeclarationSyntax method, out AttributeSyntax attribute, params string[] attributeNames)
         {
+            if(attributeNames == null || !attributeNames.Any() || method == null) {
+                attribute = null;
+                return false;
+            }
             var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
             var attributes = method.AttributeLists.SelectMany(e => e.Attributes);
+            return AnyAttributeMatches(context, out attribute, fullNames, attributes);
+        }
+
+        protected bool HasAttribute(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, string attributeName, out AttributeSyntax attribute)
+        {
+            return HasAnyAttribute(context, parameter, out attribute, attributeName);
+        }
+
+        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, out AttributeSyntax attribute, params string[] attributeNames)
+        {
+            if(attributeNames == null || !attributeNames.Any() || parameter == null) {
+                attribute = null;
+                return false;
+            }
+            var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
+            var attributes = parameter.AttributeLists.SelectMany(e => e.Attributes);
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
@@ -174,7 +194,7 @@ namespace ExtraDry.Analyzers
             if(method == null) {
                 return null;
             }
-            // Use parallel arrays to correlate semantic model with syntax model for paramter.
+            // Use parallel arrays to correlate semantic model with syntax model for parameter.
             var parameters = method.ParameterList?.Parameters.ToList();
             var semanticMethod = context.SemanticModel.GetDeclaredSymbol(method);
             var semanticParameters = semanticMethod.ConstructedFrom.Parameters.ToList();

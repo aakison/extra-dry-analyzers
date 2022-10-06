@@ -256,6 +256,14 @@ public sealed class RulesAttribute : Attribute {
     public RuleAction UpdateAction { get; set; } = RuleAction.Allow;
 }
 
+[AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
+public sealed class FromQueryAttribute : Attribute {
+}
+
+public class FilterQuery {}
+
+public class PageQuery : FilterQuery {}
+
 ";
 
     }
