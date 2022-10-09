@@ -30,22 +30,6 @@ namespace ExtraDry.Analyzers {
             if(hasFromQueryAttribute) {
                 return;
             }
-            //var _class = ClassForMember(property);
-            //if(_class == null) {
-            //    return;
-            //}
-            //var hasApiControllerAttribute = HasAttribute(context, _class, "ApiController", out var _);
-            //if(!hasApiControllerAttribute) {
-            //    return;
-            //}
-            //var isInjected = HasAttribute(context, property, "InjectAttribute", out var _);
-            //if(!isInjected) {
-            //    return;
-            //}
-            //var isDbContext = PropertyInheritsFrom(context, property, "DbContext");
-            //if(!isDbContext) {
-            //    return;
-            //}
             context.ReportDiagnostic(Diagnostic.Create(Rule, filterParameter.GetLocation(), method.Identifier.ValueText));
         }
 

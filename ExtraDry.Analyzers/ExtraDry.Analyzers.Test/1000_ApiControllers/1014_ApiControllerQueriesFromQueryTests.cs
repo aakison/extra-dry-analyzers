@@ -22,17 +22,19 @@ public class SampleController {
 ");
         }
 
-        [Fact]
-        public async Task CorrectUsage_NoDiagnostic()
+        [Theory]
+        [InlineData("FilterQuery")]
+        [InlineData("PageQuery")]
+        public async Task CorrectUsage_NoDiagnostic(string className)
         {
-            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @$"
 [ApiController]
-public class SampleController {
+public class SampleController {{
     [HttpGet(""/api/test-items"")]
-    public List<object> TestMethod([FromQuery] FilterQuery query) {
+    public List<object> TestMethod([FromQuery] {className} query) {{
         return new List<object>();
-    }
-}
+    }}
+}}
 ");
         }
 
