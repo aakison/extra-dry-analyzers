@@ -22,6 +22,14 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
+            var _class = ClassForMember(method);
+            if(_class == null) {
+                return;
+            }
+            var hasApiControllerAttribute = HasAttribute(context, _class, "ApiController", out var _);
+            if(!hasApiControllerAttribute) {
+                return;
+            }
             var filterParameter = FirstTypeParameter(context, method, "FilterQuery");
             if(filterParameter == null) {
                 return;

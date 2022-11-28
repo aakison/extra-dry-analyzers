@@ -72,6 +72,18 @@ public class SampleController {
 ");
         }
 
+        [Fact]
+        public async Task NotControl_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+public class SampleController {
+    public List<object> TestMethod(FilterQuery query) {
+        return new List<object>();
+    }
+}
+");
+        }
+
         public string stubs = TestHelpers.Stubs;
 
     }
