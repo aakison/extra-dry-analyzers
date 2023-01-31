@@ -254,17 +254,17 @@ namespace ExtraDry.Analyzers
                     kind = SyntaxKind.InternalKeyword;
                     break;
             };
-            return member.ChildTokens()?.Any(e => e.Kind() == kind) ?? false;
+            return member.ChildTokens()?.Any(e => e.IsKind(kind)) ?? false;
         }
 
         protected static bool IsAbstract(MemberDeclarationSyntax member)
         {
-            return member.ChildTokens()?.Any(e => e.Kind() == SyntaxKind.AbstractKeyword) ?? false;
+            return member.ChildTokens()?.Any(e => e.IsKind(SyntaxKind.AbstractKeyword)) ?? false;
         }
 
         protected static bool IsStatic(MethodDeclarationSyntax method)
         {
-            return method.ChildTokens()?.Any(e => e.Kind() == SyntaxKind.StaticKeyword) ?? false;
+            return method.ChildTokens()?.Any(e => e.IsKind(SyntaxKind.StaticKeyword)) ?? false;
         }
 
         protected bool InheritsFrom(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string baseName)

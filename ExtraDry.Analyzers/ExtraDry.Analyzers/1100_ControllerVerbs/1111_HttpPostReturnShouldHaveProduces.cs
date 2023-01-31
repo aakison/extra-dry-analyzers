@@ -29,7 +29,7 @@ namespace ExtraDry.Analyzers {
                 return;
             }
             if(method.ReturnType is PredefinedTypeSyntax predefined) {
-                if(predefined.Keyword.Kind() == SyntaxKind.VoidKeyword) {
+                if(predefined.Keyword.IsKind(SyntaxKind.VoidKeyword)) {
                     return;
                 }
             }
