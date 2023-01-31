@@ -24,9 +24,9 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Install .NET 5.0 SDK'
+  displayName: 'Install .NET 7.0 SDK'
   inputs:
-    version: '5.0.x'
+    version: '7.0.x'
 
 - task: DotNetCoreCLI@2
   displayName: Restore
