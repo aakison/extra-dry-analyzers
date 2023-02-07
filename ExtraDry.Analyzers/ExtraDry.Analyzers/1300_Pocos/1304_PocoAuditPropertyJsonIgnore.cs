@@ -32,6 +32,11 @@ namespace ExtraDry.Analyzers {
             if(!isPublic) {
                 return;
             }
+            var _class = ClassForMember(property);
+            if(_class == null) { 
+                // i.e. it's a propery on an interface
+                return;
+            }
             var invalidStems = new string[] { "audit", "version" };
             var propertyName = property.Identifier.ValueText.ToLowerInvariant();
             var hasInvalidStem = invalidStems.Any(e => propertyName.Contains(e));

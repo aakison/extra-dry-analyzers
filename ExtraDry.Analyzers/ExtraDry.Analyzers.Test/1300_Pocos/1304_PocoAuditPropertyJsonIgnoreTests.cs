@@ -23,6 +23,20 @@ public class SampleEntity {{
         }
 
         [Theory]
+        [InlineData("Audit")]
+        [InlineData("AuditRecord")]
+        [InlineData("Version")]
+        [InlineData("VersionInfo")]
+        public async Task NoDirectLeakageInterface_NoDiagnostic(string name)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+public interface SampleEntity {{
+    public string {name} {{ get; set; }}
+}}
+");
+        }
+
+        [Theory]
         [InlineData("", "OkName")]
         [InlineData("[JsonIgnore]", "Audit")]
         [InlineData("[JsonIgnore]", "AuditRecord")]
