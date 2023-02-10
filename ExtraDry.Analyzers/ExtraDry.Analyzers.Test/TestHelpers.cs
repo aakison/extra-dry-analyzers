@@ -264,6 +264,20 @@ public class FilterQuery {}
 
 public class PageQuery : FilterQuery {}
 
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+public class SwaggerOperationAttribute : Attribute
+{
+    public SwaggerOperationAttribute(string summary = null, string description = null)
+    {
+        Summary = summary;
+        Description = description;
+    }
+    public string Summary { get; set; }
+    public string Description { get; set; }
+    public string OperationId { get; set; }
+    public string[] Tags { get; set; }
+}
+
 ";
 
     }
