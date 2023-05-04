@@ -278,6 +278,27 @@ public class SwaggerOperationAttribute : Attribute
     public string[] Tags { get; set; }
 }
 
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+public class RequiredAttribute : Attribute
+{
+    public RequiredAttribute()
+    {
+    }
+}
+
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+public class StringLengthAttribute : Attribute
+{
+    public StringLengthAttribute(int maximumLength)
+    {
+        MaximumLength = maximumLength;
+    }
+
+    public int MaximumLength { get; }
+    public int MinimumLength { get; set; }
+}
+
+
 ";
 
     }
