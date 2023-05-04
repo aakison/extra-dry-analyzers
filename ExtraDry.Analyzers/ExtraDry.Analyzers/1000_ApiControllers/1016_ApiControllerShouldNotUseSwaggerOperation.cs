@@ -22,7 +22,7 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var hasSwaggerAttribute = HasAttribute(context, method, "SwaggerOperationAttribute", out var swagger);
+            var hasSwaggerAttribute = HasAttribute(context, method, "SwaggerOperationAttribute", out var _);
             if(!hasSwaggerAttribute) {
                 return;
             }

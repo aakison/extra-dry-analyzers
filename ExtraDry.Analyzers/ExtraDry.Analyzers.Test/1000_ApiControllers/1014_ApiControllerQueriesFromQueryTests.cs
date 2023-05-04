@@ -54,6 +54,22 @@ public class SampleController {{
 ");
         }
 
+        [Theory]
+        [InlineData("FilterQuery")]
+        [InlineData("PageQuery")]
+        [InlineData("string")]
+        public async Task ControllerButNotHttpMethod_NoDiagnostic(string className)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @$"
+[ApiController]
+public class SampleController {{
+    public List<object> TestMethod({className} something) {{
+        return new List<object>();
+    }}
+}}
+");
+        }
+
         [Fact]
         public async Task NoFromQueryButOtherAttribute_Diagnostic()
         {

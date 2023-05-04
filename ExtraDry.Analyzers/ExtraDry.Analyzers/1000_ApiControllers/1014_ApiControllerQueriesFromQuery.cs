@@ -22,6 +22,10 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
+            var isHttpMethod = HasAnyAttribute(context, method, out var _, "HttpGet", "HttpPost", "HttpPut");
+            if(!isHttpMethod) {
+                return;
+            }
             var _class = ClassForMember(method);
             if(_class == null) {
                 return;
