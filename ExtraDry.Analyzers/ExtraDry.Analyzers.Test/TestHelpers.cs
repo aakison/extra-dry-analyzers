@@ -298,6 +298,16 @@ public class StringLengthAttribute : Attribute
     public int MinimumLength { get; set; }
 }
 
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+public class MaxLengthAttribute : Attribute
+{
+    public MaxLengthAttribute (int maximumLength)
+    {
+        MaximumLength = maximumLength;
+    }
+
+    public int MaximumLength { get; }
+}
 
 ";
 
