@@ -309,6 +309,10 @@ public class MaxLengthAttribute : Attribute
     public int MaximumLength { get; }
 }
 
+public interface IJSRuntime { }
+
+public class ExtraDryJavascriptModule { }
+
 ";
 
     }

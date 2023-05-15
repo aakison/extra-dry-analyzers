@@ -6,7 +6,7 @@ using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
 namespace ExtraDry.Analyzers.Test
 {
     
-    public class BlazorComponentsCommonPropertiesArePublic {
+    public class BlazorComponentsCommonPropertiesArePublicTests {
 
         [Theory]
         [InlineData("CssClass")]
