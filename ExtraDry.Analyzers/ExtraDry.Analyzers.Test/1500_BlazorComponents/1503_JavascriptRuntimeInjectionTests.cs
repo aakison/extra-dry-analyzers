@@ -40,6 +40,17 @@ public class SampleComponent : ComponentBase {
 ");
         }
 
+        [Fact]
+        public async Task ApplyIfInjected_Diagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+public class SampleComponent : ComponentBase {
+    [Inject]
+    private IJSRuntime [|Module|] { get; set; } = null!;
+}
+");
+        }
+
         public string stubs = TestHelpers.Stubs;
 
     }
