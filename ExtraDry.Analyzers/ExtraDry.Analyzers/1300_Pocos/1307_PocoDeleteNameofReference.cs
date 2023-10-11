@@ -2,37 +2,36 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System;
 using System.Linq;
 
 namespace ExtraDry.Analyzers {
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class PocoSoftDeleteNameofReference : DryDiagnosticNodeAnalyzer {
+    public class PocoDeleteNameofReference : DryDiagnosticNodeAnalyzer {
 
-        public PocoSoftDeleteNameofReference() : base(
+        public PocoDeleteNameofReference() : base(
             SyntaxKind.ClassDeclaration,
             1307,
             DryAnalyzerCategory.Usage,
             DiagnosticSeverity.Warning,
-            "SoftDelete on classes nameof should reference property on class.",
-            "The property name argument to SoftDeleteRule class '{0}' reference a property on the class or the class's base class.",
-            "SoftDelete properties should be the name of a property on the enclosed class, use the nameof operator provides strong typing ot the name and can prevent bugs when properties are renamed."
+            "DeleteRule on classes nameof should reference property on class.",
+            "The property name argument to DeleteRule class '{0}' reference a property on the class or the class's base class.",
+            "DeleteRule properties should be the name of a property on the enclosed class, use the nameof operator provides strong typing ot the name and can prevent bugs when properties are renamed."
             )
         { }
 
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var _class = (ClassDeclarationSyntax)context.Node;
-            var hasSoftDelete = HasAttribute(context, _class, "SoftDeleteRuleAttribute", out var softDeleteAttribute);
-            if(!hasSoftDelete) {
+            var hasDeleteRule = HasAttribute(context, _class, "DeleteRuleAttribute", out var deleteRuleAttribute);
+            if(!hasDeleteRule) {
                 return;
             }
-            if(!(FirstArgument(softDeleteAttribute) is InvocationExpressionSyntax propertyInvoker)) {
+            if(!(NthArgument(deleteRuleAttribute, 1) is InvocationExpressionSyntax propertyInvoker)) {
                 // invalid, but handled by DRY1305
                 return;
             }
-            if(!(propertyInvoker.Expression is IdentifierNameSyntax identifier)) {
+            if(!(propertyInvoker.Expression is IdentifierNameSyntax _)) {
                 // invalid, but handled by DRY1305
                 return;
             }
