@@ -208,13 +208,13 @@ public class ComponentBase {}
 
 public interface IExtraDryComponent {}
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum DeleteAction
 {
     Recycle,
     Expunge,
     TryExpunge,
 }
-
 
 #nullable enable
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
