@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Xunit;
 using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
-    ExtraDry.Analyzers.PocoSoftDeleteRulePropertyName>;
+    ExtraDry.Analyzers.PocoDeleteRulePropertyName>;
 
 namespace ExtraDry.Analyzers.Test
 {
-    public class PocoSoftDeleteRulePropertyNameTests {
+    public class PocoDeleteRulePropertyNameTests {
 
         [Fact]
         public async Task NotSoftDeleteRule_NoDiagnostic()
@@ -21,7 +21,7 @@ public class SampleEntity {
         public async Task SoftDeleteRuleValid_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-[SoftDeleteRule(nameof(Name), null)]
+[DeleteRule(DeleteAction.Recycle, nameof(Name), null)]
 public class SampleEntity {
     private string Name { get; set; }
 }
@@ -32,7 +32,7 @@ public class SampleEntity {
         public async Task SoftDeleteRuleStringly_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-[SoftDeleteRule([|""Name""|], null)]
+[DeleteRule(DeleteAction.Recycle, [|""Name""|], null)]
 public class SampleEntity {
     private string Name { get; set; }
 }

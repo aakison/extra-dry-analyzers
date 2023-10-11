@@ -208,23 +208,35 @@ public class ComponentBase {}
 
 public interface IExtraDryComponent {}
 
+public enum DeleteAction
+{
+    Recycle,
+    Expunge,
+    TryExpunge,
+}
+
+
 #nullable enable
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class SoftDeleteRuleAttribute : Attribute {
-    public SoftDeleteRuleAttribute(string propertyName, object? deleteValue)
+public class DeleteRuleAttribute : Attribute {
+    public DeleteRuleAttribute(DeleteAction deleteAction, string propertyName, object? deleteValue)
     {
+        DeleteAction = deleteAction;
         PropertyName = propertyName;
         DeleteValue = deleteValue;
         CanUndelete = false;
     }
 
-    public SoftDeleteRuleAttribute(string propertyName, object? deleteValue, object? undeleteValue)
+    public DeleteRuleAttribute(DeleteAction deleteAction, string propertyName, object? deleteValue, object? undeleteValue)
     {
+        DeleteAction = deleteAction;
         PropertyName = propertyName;
         DeleteValue = deleteValue;
         UndeleteValue = undeleteValue;
         CanUndelete = true;
     }
+
+    public DeleteAction DeleteAction { get; }
 
     public string PropertyName { get; }
 
