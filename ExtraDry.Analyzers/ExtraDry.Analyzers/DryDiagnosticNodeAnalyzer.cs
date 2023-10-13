@@ -189,6 +189,11 @@ namespace ExtraDry.Analyzers
             }
         }
 
+        protected ParameterSyntax[] Parameters(MethodDeclarationSyntax method)
+        {
+            return method?.ParameterList?.Parameters.ToArray() ?? Array.Empty<ParameterSyntax>();
+        }
+
         protected ParameterSyntax FirstTypeParameter(SyntaxNodeAnalysisContext context, BaseMethodDeclarationSyntax method, string typeName)
         {
             if(method == null) {
