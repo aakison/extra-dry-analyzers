@@ -16,6 +16,10 @@ namespace ExtraDry.Analyzers.Test
         [InlineData("HttpPost", "Create")]
         [InlineData("HttpGet", "Retrieve")]
         [InlineData("HttpGet", "List")]
+        [InlineData("HttpPost", "ListHierarchy")]
+        [InlineData("HttpPost", "Tree")]
+        [InlineData("HttpPost", "ListTree")]
+        [InlineData("HttpGet", "Tree")]
         [InlineData("AllowAnonymous", "NotTriggered")]
         public async Task AllGood_NoDiagnostic(string verb, string prefix)
         {

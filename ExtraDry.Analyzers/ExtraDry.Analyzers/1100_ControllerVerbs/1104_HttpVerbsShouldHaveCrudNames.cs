@@ -46,8 +46,8 @@ namespace ExtraDry.Analyzers {
         }
 
         private readonly Dictionary<string, List<string>> prefixLookup = new Dictionary<string, List<string>>() {
-            { "HttpGet", new List<string> { "List", "Retrieve" } },
-            { "HttpPost", new List<string> { "Create" } },
+            { "HttpGet", new List<string> { "List", "Retrieve", "Tree" } },
+            { "HttpPost", new List<string> { "Create", "ListHierarchy", "Tree", "ListTree" } },
             { "HttpPut", new List<string> { "Update", "Upsert" } },
             { "HttpPatch", new List<string> { "Patch", "Insert" } },
             { "HttpDelete", new List<string> { "Delete" } },
