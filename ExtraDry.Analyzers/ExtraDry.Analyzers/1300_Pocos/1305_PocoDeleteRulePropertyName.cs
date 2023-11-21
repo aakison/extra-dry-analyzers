@@ -22,8 +22,8 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var _class = (ClassDeclarationSyntax)context.Node;
-            var hasSoftDelete = HasAttribute(context, _class, "DeleteRuleAttribute", out var softDeleteAttribute);
-            if(!hasSoftDelete) {
+            var hasDelete = HasAttribute(context, _class, "DeleteRuleAttribute", out var softDeleteAttribute);
+            if(!hasDelete) {
                 return;
             }
             var propertyName = NthArgument(softDeleteAttribute, 1);
