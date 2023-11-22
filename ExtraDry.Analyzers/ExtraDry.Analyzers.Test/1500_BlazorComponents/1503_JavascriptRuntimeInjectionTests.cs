@@ -41,12 +41,40 @@ public class SampleComponent : ComponentBase {
         }
 
         [Fact]
-        public async Task ApplyIfInjected_Diagnostic()
+        public async Task ApplyIfInjectedOldNamespace_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+namespace ExtraDry.Blazor {
+    public class SampleComponent : ComponentBase {
+        [Inject]
+        private IJSRuntime [|Module|] { get; set; } = null!;
+    }
+}
+");
+        }
+
+        [Fact]
+        public async Task ApplyIfInjectedNewNamespace_Diagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(
+"namespace ExtraDry.Blazor;" + 
+stubs + @"
 public class SampleComponent : ComponentBase {
     [Inject]
     private IJSRuntime [|Module|] { get; set; } = null!;
+}
+");
+        }
+
+        [Fact]
+        public async Task WrongNamespace_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+namespace ClientApp {
+    public class SampleComponent : ComponentBase {
+        [Inject]
+        private IJSRuntime Module { get; set; } = null!;
+    }
 }
 ");
         }

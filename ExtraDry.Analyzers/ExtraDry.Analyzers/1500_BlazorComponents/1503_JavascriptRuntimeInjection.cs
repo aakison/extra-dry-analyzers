@@ -38,6 +38,10 @@ namespace ExtraDry.Analyzers {
             if(!isComponent) {
                 return;
             }
+            var inNamespace = InNamespace(_class, "ExtraDry");
+            if(!inNamespace) {
+                return;
+            }
             context.ReportDiagnostic(Diagnostic.Create(Rule, property.Identifier.GetLocation(), property.Identifier.ValueText));
         }
 

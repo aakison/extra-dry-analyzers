@@ -320,8 +320,9 @@ namespace ExtraDry.Analyzers
             if(_class == null) {
                 return false;
             }
-            var _namespace = (_class.Parent as NamespaceDeclarationSyntax);
-            return InNamespace(_namespace?.Name, namespaceName);
+            var _namespace = (_class.Parent as NamespaceDeclarationSyntax)?.Name
+                ?? (_class.Parent as FileScopedNamespaceDeclarationSyntax)?.Name;
+            return InNamespace(_namespace, namespaceName);
         }
 
         private static bool InNamespace(SyntaxNode _node, string namespaceName)

@@ -8,7 +8,7 @@
 		<PackageId>*$(MSBuildProjectFile)*</PackageId>
 
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-		<AnalysisMode>recommended</AnalysisMode>
+		<AnalysisMode>all</AnalysisMode>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
