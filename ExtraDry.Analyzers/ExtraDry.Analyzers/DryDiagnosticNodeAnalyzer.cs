@@ -22,8 +22,8 @@ namespace ExtraDry.Analyzers
             string description)
         {
             Kind = kind;
-            if(rules.ContainsKey(code)) {
-                Rule = rules[code];
+            if(rules.TryGetValue(code, out DiagnosticDescriptor value)) {
+                Rule = value;
             } else {
                 Rule = new DiagnosticDescriptor($"DRY{code}", title, message, category.ToString(), severity,
                     isEnabledByDefault: true, description: description);
@@ -53,14 +53,14 @@ namespace ExtraDry.Analyzers
 
         public abstract void AnalyzeNode(SyntaxNodeAnalysisContext context);
 
-        protected bool HasAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string attributeName, out AttributeSyntax attribute)
+        protected static bool HasAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string attributeName, out AttributeSyntax attribute)
         {
             return HasAnyAttribute(context, _class, out attribute, attributeName);
         }
 
-        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, out AttributeSyntax attribute, params string[] attributeNames)
+        protected static bool HasAnyAttribute(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, out AttributeSyntax attribute, params string[] attributeNames)
         {
-            if(attributeNames == null || !attributeNames.Any() || _class == null) {
+            if(attributeNames == null || attributeNames.Length == 0 || _class == null) {
                 attribute = null;
                 return false;
             }
@@ -69,14 +69,14 @@ namespace ExtraDry.Analyzers
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
-        protected bool HasAttribute(SyntaxNodeAnalysisContext context, MemberDeclarationSyntax method, string attributeName, out AttributeSyntax attribute)
+        protected static bool HasAttribute(SyntaxNodeAnalysisContext context, MemberDeclarationSyntax method, string attributeName, out AttributeSyntax attribute)
         {
             return HasAnyAttribute(context, method, out attribute, attributeName);
         }
 
-        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, MemberDeclarationSyntax method, out AttributeSyntax attribute, params string[] attributeNames)
+        protected static bool HasAnyAttribute(SyntaxNodeAnalysisContext context, MemberDeclarationSyntax method, out AttributeSyntax attribute, params string[] attributeNames)
         {
-            if(attributeNames == null || !attributeNames.Any() || method == null) {
+            if(attributeNames == null || attributeNames.Length == 0 || method == null) {
                 attribute = null;
                 return false;
             }
@@ -85,14 +85,14 @@ namespace ExtraDry.Analyzers
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
-        protected bool HasAttribute(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, string attributeName, out AttributeSyntax attribute)
+        protected static bool HasAttribute(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, string attributeName, out AttributeSyntax attribute)
         {
             return HasAnyAttribute(context, parameter, out attribute, attributeName);
         }
 
-        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, out AttributeSyntax attribute, params string[] attributeNames)
+        protected static bool HasAnyAttribute(SyntaxNodeAnalysisContext context, ParameterSyntax parameter, out AttributeSyntax attribute, params string[] attributeNames)
         {
-            if(attributeNames == null || !attributeNames.Any() || parameter == null) {
+            if(attributeNames == null || attributeNames.Length == 0 || parameter == null) {
                 attribute = null;
                 return false;
             }
@@ -101,14 +101,14 @@ namespace ExtraDry.Analyzers
             return AnyAttributeMatches(context, out attribute, fullNames, attributes);
         }
 
-        protected bool HasAttribute(SyntaxNodeAnalysisContext context, EnumDeclarationSyntax _enum, string attributeName, out AttributeSyntax attribute)
+        protected static bool HasAttribute(SyntaxNodeAnalysisContext context, EnumDeclarationSyntax _enum, string attributeName, out AttributeSyntax attribute)
         {
             return HasAnyAttribute(context, _enum, out attribute, attributeName);
         }
 
-        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, EnumDeclarationSyntax _enum, out AttributeSyntax attribute, params string[] attributeNames)
+        protected static bool HasAnyAttribute(SyntaxNodeAnalysisContext context, EnumDeclarationSyntax _enum, out AttributeSyntax attribute, params string[] attributeNames)
         {
-            if(attributeNames == null || !attributeNames.Any() || _enum == null) {
+            if(attributeNames == null || attributeNames.Length == 0 || _enum == null) {
                 attribute = null;
                 return false;
             }
@@ -118,12 +118,12 @@ namespace ExtraDry.Analyzers
         }
 
 
-        protected bool HasAttribute(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, string attributeName, out AttributeSyntax attribute)
+        protected static bool HasAttribute(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, string attributeName, out AttributeSyntax attribute)
         {
             return HasAnyAttribute(context, property, out attribute, attributeName);
         }
 
-        protected bool HasAnyAttribute(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, out AttributeSyntax attribute, params string[] attributeNames)
+        protected static bool HasAnyAttribute(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, out AttributeSyntax attribute, params string[] attributeNames)
         {
             var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
             var attributes = property.AttributeLists.SelectMany(e => e.Attributes);
@@ -144,7 +144,7 @@ namespace ExtraDry.Analyzers
             return false;
         }
 
-        protected ExpressionSyntax FirstArgument(AttributeSyntax attribute)
+        protected static ExpressionSyntax FirstArgument(AttributeSyntax attribute)
         {
             if(attribute == null) {
                 return null;
@@ -158,7 +158,7 @@ namespace ExtraDry.Analyzers
             }
         }
 
-        protected ExpressionSyntax NthArgument(AttributeSyntax attribute, int index)
+        protected static ExpressionSyntax NthArgument(AttributeSyntax attribute, int index)
         {
             if(attribute == null) {
                 return null;
@@ -175,7 +175,7 @@ namespace ExtraDry.Analyzers
             }
         }
 
-        protected ParameterSyntax FirstParameter(MethodDeclarationSyntax method)
+        protected static ParameterSyntax FirstParameter(MethodDeclarationSyntax method)
         {
             if(method == null) {
                 return null;
@@ -189,12 +189,12 @@ namespace ExtraDry.Analyzers
             }
         }
 
-        protected ParameterSyntax[] Parameters(MethodDeclarationSyntax method)
+        protected static ParameterSyntax[] Parameters(MethodDeclarationSyntax method)
         {
             return method?.ParameterList?.Parameters.ToArray() ?? Array.Empty<ParameterSyntax>();
         }
 
-        protected ParameterSyntax FirstTypeParameter(SyntaxNodeAnalysisContext context, BaseMethodDeclarationSyntax method, string typeName)
+        protected static ParameterSyntax FirstTypeParameter(SyntaxNodeAnalysisContext context, BaseMethodDeclarationSyntax method, string typeName)
         {
             if(method == null) {
                 return null;
@@ -213,7 +213,7 @@ namespace ExtraDry.Analyzers
             return null;
         }
 
-        protected bool PropertyInheritsFrom(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, string typeName)
+        protected static bool PropertyInheritsFrom(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, string typeName)
         {
             if(property == null) {
                 return false;
@@ -225,7 +225,7 @@ namespace ExtraDry.Analyzers
             return Inherits(semanticProperty.Type, typeName);
         }
 
-        protected ExpressionSyntax NamedArgument(AttributeSyntax attribute, string argumentName)
+        protected static ExpressionSyntax NamedArgument(AttributeSyntax attribute, string argumentName)
         {
             if(attribute == null) {
                 return null;
@@ -272,7 +272,7 @@ namespace ExtraDry.Analyzers
             return method.ChildTokens()?.Any(e => e.IsKind(SyntaxKind.StaticKeyword)) ?? false;
         }
 
-        protected bool InheritsFrom(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string baseName)
+        protected static bool InheritsFrom(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string baseName)
         {
             if(_class == null) {
                 return false;
@@ -295,7 +295,7 @@ namespace ExtraDry.Analyzers
             return false;
         }
 
-        protected bool Implements(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string interfaceName)
+        protected static bool Implements(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string interfaceName)
         {
             if(_class == null) {
                 return false;
@@ -343,7 +343,7 @@ namespace ExtraDry.Analyzers
             return member.FirstAncestorOrSelf<ClassDeclarationSyntax>(e => e is ClassDeclarationSyntax);
         }
 
-        protected bool AnyReturnMatches(MethodDeclarationSyntax method, out IdentifierNameSyntax identifier, params string[] objectNames)
+        protected static bool AnyReturnMatches(MethodDeclarationSyntax method, out IdentifierNameSyntax identifier, params string[] objectNames)
         {
             identifier = null;
             if(method.ReturnType is IdentifierNameSyntax ident) {
@@ -355,7 +355,7 @@ namespace ExtraDry.Analyzers
             return false;
         }
 
-        protected bool HasProperty(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax @class, string propertyName)
+        protected static bool HasProperty(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax @class, string propertyName)
         {
             var symbol = context.SemanticModel?.GetDeclaredSymbol(@class);
             if(symbol == null) {

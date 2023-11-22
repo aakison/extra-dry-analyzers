@@ -27,9 +27,9 @@ namespace ExtraDry.Analyzers {
                 return;
             }
             var policyPositional = FirstArgument(authorizeAttribute);
-            var validPositional = policyPositional == null ? true : policyPositional?.Kind() != SyntaxKind.StringLiteralExpression;
+            var validPositional = policyPositional == null || policyPositional?.Kind() != SyntaxKind.StringLiteralExpression;
             var policyNamed = NamedArgument(authorizeAttribute, "Policy");
-            var validNamed = policyNamed == null ? true : policyNamed?.Kind() != SyntaxKind.StringLiteralExpression;
+            var validNamed = policyNamed == null || policyNamed?.Kind() != SyntaxKind.StringLiteralExpression;
             if(validPositional && validNamed) {
                 return;
             }
