@@ -43,7 +43,7 @@ namespace ExtraDry.Analyzers {
             if(converterArgument == null) {
                 return;
             }
-            if(!(converterArgument.DescendantNodes().FirstOrDefault(e => e.IsKind(SyntaxKind.IdentifierName)) is IdentifierNameSyntax converterType)) {
+            if(converterArgument.DescendantNodes().FirstOrDefault(e => e.IsKind(SyntaxKind.IdentifierName)) is not IdentifierNameSyntax converterType) {
                 return;
             }
             if(converterType.Identifier.ValueText != "JsonStringEnumConverter") {

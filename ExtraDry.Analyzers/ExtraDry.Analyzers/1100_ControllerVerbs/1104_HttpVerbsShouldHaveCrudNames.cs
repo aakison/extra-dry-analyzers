@@ -45,7 +45,7 @@ namespace ExtraDry.Analyzers {
             context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText, valid));
         }
 
-        private readonly Dictionary<string, List<string>> prefixLookup = new Dictionary<string, List<string>>() {
+        private readonly Dictionary<string, List<string>> prefixLookup = new() {
             { "HttpGet", new List<string> { "List", "Retrieve", "Tree" } },
             { "HttpPost", new List<string> { "Create", "ListHierarchy", "Tree", "ListTree" } },
             { "HttpPut", new List<string> { "Update", "Upsert" } },
