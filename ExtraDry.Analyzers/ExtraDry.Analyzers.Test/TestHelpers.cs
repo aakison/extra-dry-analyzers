@@ -186,6 +186,7 @@ public class JsonConverterAttribute : Attribute {
 public class ApiExplorerSettingsAttribute : Attribute {
     public ApiExplorerSettingsAttribute() {}
     public bool IgnoreApi { get; set; }
+    public string GroupName { get; set; }
 }
 
 public class JsonConverter {}
