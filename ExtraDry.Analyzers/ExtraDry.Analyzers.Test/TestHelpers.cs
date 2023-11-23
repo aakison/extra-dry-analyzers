@@ -172,9 +172,11 @@ public class SkipStatusCodePagesAttribute : Attribute {}
 public class ApiExceptionStatusCodesAttribute : Attribute {}
 
 // Stubs from ExtraDry.Core
-public class UriReference {}
-public class WebIdReference {}
-public class UuidReference {}
+public class ResourceReference {
+    public Guid Uuid { get; set; } = Guid.Empty;
+    public string Slug { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+}
 
 [AttributeUsage(AttributeTargets.Enum | AttributeTargets.Property)]
 public class JsonConverterAttribute : Attribute {

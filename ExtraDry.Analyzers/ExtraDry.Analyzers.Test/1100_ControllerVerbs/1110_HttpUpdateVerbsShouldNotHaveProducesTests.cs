@@ -74,18 +74,15 @@ public class SampleController {{
 ");
         }
 
-        [Theory]
-        [InlineData("UriReference")]
-        [InlineData("WebIdReference")]
-        [InlineData("UuidReference")]
-        public async Task IdReturnExceptionForUpdate_NoDiagnostic(string returnType)
+        [Fact]
+        public async Task IdReturnExceptionForUpdate_NoDiagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
 [ApiController]
 [Produces(""application/json"")]
 public class SampleController {{
     [HttpPut]
-    public {returnType} Method(int id) {{
+    public ResourceReference Method(int id) {{
         return new();
     }}
 }}

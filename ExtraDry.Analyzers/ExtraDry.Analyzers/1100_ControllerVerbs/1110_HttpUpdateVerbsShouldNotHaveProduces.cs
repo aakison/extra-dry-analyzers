@@ -41,7 +41,7 @@ namespace ExtraDry.Analyzers {
             if(!actionHasConsumesAttribute && !controllerHasConsumesAttribute) {
                 return;
             }
-            var idPayloadReturn = AnyReturnMatches(method, out var _, "UriReference", "UuidReference", "WebIdReference");
+            var idPayloadReturn = AnyReturnMatches(method, out var _, "ResourceReference");
             if(idPayloadReturn) {
                 return;
             }
