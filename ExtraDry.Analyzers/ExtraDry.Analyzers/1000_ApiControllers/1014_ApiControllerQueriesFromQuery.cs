@@ -34,7 +34,7 @@ namespace ExtraDry.Analyzers {
             if(!hasApiControllerAttribute) {
                 return;
             }
-            var filterParameter = FirstTypeParameter(context, method, "FilterQuery");
+            var filterParameter = FirstTypeParameter(context, method, "FilterQuery"); // base class covers SortQuery & PageQuery
             if(filterParameter == null) {
                 return;
             }

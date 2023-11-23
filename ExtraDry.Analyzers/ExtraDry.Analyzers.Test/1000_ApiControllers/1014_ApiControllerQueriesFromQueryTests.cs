@@ -24,6 +24,7 @@ public class SampleController {
 
         [Theory]
         [InlineData("FilterQuery")]
+        [InlineData("SortQuery")]
         [InlineData("PageQuery")]
         public async Task CorrectUsage_NoDiagnostic(string className)
         {
@@ -40,6 +41,7 @@ public class SampleController {{
 
         [Theory]
         [InlineData("FilterQuery")]
+        [InlineData("SortQuery")]
         [InlineData("PageQuery")]
         public async Task NoFromQuery_Diagnostic(string className)
         {
@@ -56,6 +58,7 @@ public class SampleController {{
 
         [Theory]
         [InlineData("FilterQuery")]
+        [InlineData("SortQuery")]
         [InlineData("PageQuery")]
         [InlineData("string")]
         public async Task ControllerButNotHttpMethod_NoDiagnostic(string className)

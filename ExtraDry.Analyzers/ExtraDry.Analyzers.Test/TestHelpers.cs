@@ -277,7 +277,9 @@ public sealed class FromQueryAttribute : Attribute {
 
 public class FilterQuery {}
 
-public class PageQuery : FilterQuery {}
+public class SortQuery : FilterQuery {}
+
+public class PageQuery : SortQuery {}
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public class SwaggerOperationAttribute : Attribute
