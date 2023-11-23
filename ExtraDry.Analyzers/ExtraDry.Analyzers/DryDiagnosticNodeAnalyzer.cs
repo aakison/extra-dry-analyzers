@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Text.RegularExpressions;
 
 namespace ExtraDry.Analyzers;
 
@@ -342,6 +343,17 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
         identifier = null;
         var name = method.ReturnType.ToString();
         if(objectNames.Any(e => e == name)) {
+            identifier = method.ReturnType as IdentifierNameSyntax;
+            return true;
+        }
+        return false;
+    }
+
+    protected static bool ReturnMatches(MethodDeclarationSyntax method, out IdentifierNameSyntax identifier, Regex regex)
+    {
+        identifier = null;
+        var name = method.ReturnType.ToString();
+        if(regex.IsMatch(name)) {
             identifier = method.ReturnType as IdentifierNameSyntax;
             return true;
         }

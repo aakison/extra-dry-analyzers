@@ -178,6 +178,8 @@ public class ResourceReference {
     public string Title { get; set; } = string.Empty;
 }
 
+public class ResourceReference<T> : ResourceReference {}
+
 [AttributeUsage(AttributeTargets.Enum | AttributeTargets.Property)]
 public class JsonConverterAttribute : Attribute {
     public JsonConverterAttribute() {}
@@ -208,6 +210,8 @@ public class SampleContext : DbContext {}
 public class InjectAttribute : Attribute {}
 
 public class ComponentBase {}
+
+public class Company {}
 
 public interface IExtraDryComponent {}
 

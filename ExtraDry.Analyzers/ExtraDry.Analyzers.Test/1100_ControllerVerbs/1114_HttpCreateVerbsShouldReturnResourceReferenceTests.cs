@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xunit;
 using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
     ExtraDry.Analyzers.HttpCreateVerbsShouldReturnResourceReference>;
@@ -23,15 +24,19 @@ public class SampleController {{
 ");
     }
 
-    [Fact]
-    public async Task AllGoodAsync_NoDiagnostic()
+    [Theory]
+    [InlineData("ResourceReference")]
+    [InlineData("Task<ResourceReference>")]
+    [InlineData("ResourceReference<Company>")]
+    [InlineData("Task<ResourceReference<Company>>")]
+    public async Task AllGoodAsync_NoDiagnostic(string returnType)
     {
         await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
 [ApiController]
 public class SampleController {{
     [HttpPost]
     [Produces(""application/json"")]
-    public Task<ResourceReference> Create(int id) {{
+    public {returnType} Create(int id) {{
         throw new NotImplementedException();
     }}
 }}

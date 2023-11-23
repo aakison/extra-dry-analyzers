@@ -1,4 +1,6 @@
-﻿namespace ExtraDry.Analyzers;
+﻿using System.Text.RegularExpressions;
+
+namespace ExtraDry.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class HttpCreateVerbsShouldReturnResourceReference : DryDiagnosticNodeAnalyzer {
@@ -29,7 +31,8 @@ public class HttpCreateVerbsShouldReturnResourceReference : DryDiagnosticNodeAna
         if(!hasApiController) {
             return;
         }
-        var idPayloadReturn = AnyReturnMatches(method, out var _, "Task<ResourceReference>", "ResourceReference");
+        var regex = new Regex(@"^(Task<)?ResourceReference(<.+>)?(>)?$");
+        var idPayloadReturn = ReturnMatches(method, out var _, regex);
         if(idPayloadReturn) {
             return;
         }
