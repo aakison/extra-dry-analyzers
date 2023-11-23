@@ -22,7 +22,7 @@ namespace ExtraDry.Analyzers {
         public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             var method = (MethodDeclarationSyntax)context.Node;
-            var filterParameter = FirstTypeParameter(context, method, "FilterQuery"); // PageQuery included as it inherits FilterQuery.
+            var filterParameter = FirstTypeParameter(context, method, "FilterQuery"); // SortQuery & PageQuery included as it inherits FilterQuery.
             if(filterParameter == null) {
                 return;
             }
