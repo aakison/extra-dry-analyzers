@@ -24,6 +24,21 @@ public class SampleController {{
     }
 
     [Fact]
+    public async Task AllGoodAsync_NoDiagnostic()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+[ApiController]
+public class SampleController {{
+    [HttpPost]
+    [Produces(""application/json"")]
+    public Task<ResourceReference> Create(int id) {{
+        throw new NotImplementedException();
+    }}
+}}
+");
+    }
+
+    [Fact]
     public async Task NoProducesNotThisRule_NoDiagnostic()
     {
         await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
