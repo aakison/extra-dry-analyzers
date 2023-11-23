@@ -1,9 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
-
-namespace ExtraDry.Analyzers; 
+﻿namespace ExtraDry.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class HttpCreateVerbsShouldReturnResourceReference : DryDiagnosticNodeAnalyzer {

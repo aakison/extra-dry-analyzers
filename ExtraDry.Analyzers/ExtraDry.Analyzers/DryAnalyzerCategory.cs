@@ -1,12 +1,11 @@
-﻿namespace ExtraDry.Analyzers
+﻿namespace ExtraDry.Analyzers;
+
+public enum DryAnalyzerCategory
 {
-    public enum DryAnalyzerCategory
-    {
-        Usage,
-        Annotation,
-        Naming,
-        Security,
-        ApiUsage,
-        OpenApiDocs,
-    }
+    Usage,
+    Annotation,
+    Naming,
+    Security,
+    ApiUsage,
+    OpenApiDocs,
 }

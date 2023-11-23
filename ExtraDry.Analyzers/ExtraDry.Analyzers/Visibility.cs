@@ -1,14 +1,14 @@
-﻿namespace ExtraDry.Analyzers {
-    public enum Visibility {
+﻿namespace ExtraDry.Analyzers;
 
-        Public,
+public enum Visibility {
 
-        Private,
+    Public,
 
-        Protected,
+    Private,
 
-        Internal,
+    Protected,
 
-        // ProtectedInternal - not supported...
-    }
+    Internal,
+
+    // ProtectedInternal - not supported...
 }
