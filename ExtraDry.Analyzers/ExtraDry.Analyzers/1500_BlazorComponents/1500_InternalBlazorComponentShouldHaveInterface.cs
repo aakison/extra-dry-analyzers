@@ -38,6 +38,10 @@ public class InternalBlazorComponentShouldHaveInterface : DryDiagnosticNodeAnaly
         if(implementsExtraDryComponent) {
             return;
         }
+        var isPublic = HasVisibility(_class, Visibility.Public);
+        if(!isPublic) {
+            return;
+        }
         context.ReportDiagnostic(Diagnostic.Create(Rule, _class.Identifier.GetLocation(), _class.Identifier.ValueText));
     }
 
