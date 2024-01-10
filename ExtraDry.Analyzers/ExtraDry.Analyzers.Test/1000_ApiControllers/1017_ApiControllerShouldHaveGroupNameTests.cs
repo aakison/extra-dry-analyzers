@@ -33,6 +33,19 @@ public class SampleController {
         }
 
         [Fact]
+        public async Task SuppresedUsageSeparate_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+[ApiController]
+[ApiExplorerSettings(IgnoreApi = true)]
+public class SampleController {
+    [HttpPost]
+    public void DoPost() {}
+}
+");
+        }
+
+        [Fact]
         public async Task MissingApiExplorerSettings_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"

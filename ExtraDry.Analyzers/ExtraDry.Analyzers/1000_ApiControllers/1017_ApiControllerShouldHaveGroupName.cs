@@ -26,6 +26,10 @@ public class ApiControllerShouldHaveGroupName : DryDiagnosticNodeAnalyzer {
         if(hasApiExplorerSettings && groupName != null) {
             return;
         }
+        var ignore = NamedArgument(apiExplorerSettings, "IgnoreApi");
+        if(ignore.IsKind(SyntaxKind.TrueLiteralExpression)) {
+            return;
+        }
         context.ReportDiagnostic(Diagnostic.Create(Rule, _class.Identifier.GetLocation(), _class.Identifier.ValueText));
     }
 }
