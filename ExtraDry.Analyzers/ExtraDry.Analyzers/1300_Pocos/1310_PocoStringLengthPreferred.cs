@@ -8,7 +8,7 @@ public class PocoStringLengthPreferred : DryDiagnosticNodeAnalyzer {
         1310,
         DryAnalyzerCategory.Usage,
         DiagnosticSeverity.Warning,
-        "Prefer the use of StringLength instead of MaxLength .",
+        "Prefer the use of StringLength instead of MaxLength.",
         "The property '{0}' has a MaxLengthAttribute instead of StringLengthAttribute.",
         "The MaxLength and StringLength attributes are similar, with StringLength designed for Validation and MaxLength designed for Entity Framework column sizes.  While validation does not recognize MaxLength, EF does recognize StringLength.  So using StringLength will satisfy both systems while MaxLength will not."
         )
