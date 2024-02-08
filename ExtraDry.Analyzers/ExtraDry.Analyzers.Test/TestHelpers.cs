@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ExtraDry.Analyzers.Test;
 
-namespace ExtraDry.Analyzers.Test {
-    public static class TestHelpers {
+public static class TestHelpers {
 
-        public const string Stubs = @"
+    public const string Stubs = @"
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -334,7 +329,11 @@ public interface IJSRuntime { }
 
 public class ExtraDryJavascriptModule { }
 
+public class VersionInfo { }
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public class OwnedAttribute : Attribute { }
+
 ";
 
-    }
 }
