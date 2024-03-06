@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.ComponentModel.Design;
 using System.Text.RegularExpressions;
 
 namespace ExtraDry.Analyzers;
@@ -347,6 +348,15 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
             return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Similar to AnyReturnMatches, but for generic types.  I.e. matching "Foo", will match "Foo&lt;T>", "Task&lt;Foo>", "Task&lt;Foo&lt;T>>" etc.
+    /// </summary>
+    protected static bool ReturnMatchesGeneric(MethodDeclarationSyntax method, out IdentifierNameSyntax identifier, string genericName)
+    {
+        var regex = new Regex($@"^(Task<)?{genericName}(<.+>)?(>)?$");
+        return ReturnMatches(method, out identifier, regex);
     }
 
     protected static bool ReturnMatches(MethodDeclarationSyntax method, out IdentifierNameSyntax identifier, Regex regex)

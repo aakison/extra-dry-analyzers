@@ -31,8 +31,7 @@ public class HttpCreateVerbsShouldReturnResourceReference : DryDiagnosticNodeAna
         if(!hasApiController) {
             return;
         }
-        var regex = new Regex(@"^(Task<)?ResourceReference(<.+>)?(>)?$");
-        var idPayloadReturn = ReturnMatches(method, out var _, regex);
+        var idPayloadReturn = ReturnMatchesGeneric(method, out var _, "ResourceReference");
         if(idPayloadReturn) {
             return;
         }

@@ -34,7 +34,7 @@ public class HttpUpdateVerbsShouldNotHaveProduces : DryDiagnosticNodeAnalyzer {
         if(!actionHasConsumesAttribute && !controllerHasConsumesAttribute) {
             return;
         }
-        var idPayloadReturn = AnyReturnMatches(method, out var _, "ResourceReference");
+        var idPayloadReturn = ReturnMatchesGeneric(method, out var _, "ResourceReference");
         if(idPayloadReturn) {
             return;
         }

@@ -89,6 +89,28 @@ public class SampleController {{
 ");
         }
 
+        [Fact]
+        public async Task IdReturnGenericExceptionForUpdate_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+public class Foo
+{{
+    public Guid Uuid {{ get; set; }}
+    public string Slug {{ get; set; }}
+    public string Title {{ get; set; }}
+}}
+
+[ApiController]
+[Produces(""application/json"")]
+public class SampleController {{
+    [HttpPut]
+    public ResourceReference<Foo> Method(int id) {{
+        return new();
+    }}
+}}
+");
+        }
+
         public string stubs = TestHelpers.Stubs;
 
     }
