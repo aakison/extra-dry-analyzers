@@ -10,7 +10,7 @@ public class ApiControllerShouldHaveGroupName : DryDiagnosticNodeAnalyzer {
         DiagnosticSeverity.Warning,
         "API Controllers should have group name for OpenAPI.",
         "Class '{0}' is an API controller but does not indicate a GroupName parameter in the ApiExplorerSettings attribute.",
-        "For ease of discovery and consumption, APIs should be partioned into logical groups."
+        "For ease of discovery and consumption of public facing APIs, they should be partioned into logical groups.  For internal APIs, such as for Microservices, this can be ignored project-wide."
         )
     { }
 
