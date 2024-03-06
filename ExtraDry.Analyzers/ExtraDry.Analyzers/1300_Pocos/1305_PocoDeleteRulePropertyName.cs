@@ -16,12 +16,18 @@ public class PocoDeleteRulePropertyName : DryDiagnosticNodeAnalyzer {
 
     public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
-        var _class = (ClassDeclarationSyntax)context.Node;
+        var _class = context.Node as ClassDeclarationSyntax;
+        if(_class == null) {
+            return;
+        }
         var hasDelete = HasAttribute(context, _class, "DeleteRuleAttribute", out var softDeleteAttribute);
         if(!hasDelete) {
             return;
         }
         var propertyName = NthArgument(softDeleteAttribute, 1);
+        if(propertyName == null) {
+            return;
+        }
         if(propertyName is InvocationExpressionSyntax invoker) {
             if(invoker.Expression is IdentifierNameSyntax) {
                 return;
