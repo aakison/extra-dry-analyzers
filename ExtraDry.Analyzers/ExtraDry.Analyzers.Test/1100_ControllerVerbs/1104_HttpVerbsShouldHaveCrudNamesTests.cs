@@ -15,6 +15,7 @@ namespace ExtraDry.Analyzers.Test
         [InlineData("HttpDelete", "Delete")]
         [InlineData("HttpPost", "Create")]
         [InlineData("HttpGet", "Retrieve")]
+        [InlineData("HttpGet", "Read")]
         [InlineData("HttpGet", "List")]
         [InlineData("HttpPost", "ListHierarchy")]
         [InlineData("HttpPost", "Tree")]

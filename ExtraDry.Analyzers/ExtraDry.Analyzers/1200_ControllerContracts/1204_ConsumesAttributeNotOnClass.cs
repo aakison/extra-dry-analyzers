@@ -10,7 +10,7 @@ public class ConsumesAttributeNotOnClass : DryDiagnosticNodeAnalyzer {
         DiagnosticSeverity.Warning,
         "ConsumesAttribute should only apply to methods.",
         "ConsumesAttribute on class {0} should be removed and placed on the appropriate methods.",
-        "The Consumes attribute indicates to API consumers what the type of the request payload should be.  Placing on a class will indicate a payload on all methods, including those that shouldn't produce anything (e.g. List, Retrieve)."
+        "The Consumes attribute indicates to API consumers what the type of the request payload should be.  Placing on a class will indicate a payload on all methods, including those that shouldn't produce anything (e.g. List, Read)."
         )
     { }
 

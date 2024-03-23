@@ -10,7 +10,7 @@ public class HttpVerbsShouldHaveCrudNames : DryDiagnosticNodeAnalyzer {
         DiagnosticSeverity.Info,
         "Http Verbs should be named with their CRUD counterparts",
         "Rename `{0}` method to start with `{1}`",
-        "Http verbs are aligned with CRUD operations loosely, make it explict by adding the name of the CRUD operation to the beginning of the method.  This also explicitly disambiguates methods like `List` from `Retrieve`."
+        "Http verbs are aligned with CRUD operations loosely, make it explict by adding the name of the CRUD operation to the beginning of the method.  This also explicitly disambiguates methods like `List` from `Read`."
         )
     { }
 
@@ -39,7 +39,7 @@ public class HttpVerbsShouldHaveCrudNames : DryDiagnosticNodeAnalyzer {
     }
 
     private readonly Dictionary<string, List<string>> prefixLookup = new() {
-        { "HttpGet", new List<string> { "List", "Retrieve", "Tree" } },
+        { "HttpGet", new List<string> { "List", "Read", "Tree", "Retrieve" } }, // Retrieve is OK, but not recommended by rule.
         { "HttpPost", new List<string> { "Create", "ListHierarchy", "Tree", "ListTree" } },
         { "HttpPut", new List<string> { "Update", "Upsert" } },
         { "HttpPatch", new List<string> { "Patch", "Insert" } },
