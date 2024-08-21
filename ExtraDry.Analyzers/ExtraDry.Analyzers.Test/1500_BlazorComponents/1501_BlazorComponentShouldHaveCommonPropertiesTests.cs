@@ -40,6 +40,21 @@ public abstract class SampleComponent : ComponentBase, IExtraDryComponent {
         }
 
         [Fact]
+        public async Task InheritedFromBaseClass_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
+public class SampleBase : ComponentBase, IExtraDryComponent {
+    public string CssClass { get; set; }
+    public Dictionary<string, object> UnmatchedAttributes { get; set; }
+}
+
+public class SampleComponent : SampleBase, IExtraDryComponent {
+}
+");
+        }
+
+
+        [Fact]
         public async Task MissingCssClassProperty_Diagnostic()
         {
             await VerifyCS.VerifyAnalyzerAsync(stubs + @"

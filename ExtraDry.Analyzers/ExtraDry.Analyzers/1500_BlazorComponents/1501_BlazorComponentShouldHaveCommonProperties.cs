@@ -30,7 +30,8 @@ public class BlazorComponentShouldHaveCommonProperties : DryDiagnosticNodeAnalyz
             return;
         }
         foreach(var name in names) {
-            var hasCommonProperty = _class.Members.Any(e => (e as PropertyDeclarationSyntax)?.Identifier.ValueText == name);
+            var hasCommonProperty = HasProperty(context, _class, name);
+            //var hasCommonProperty = _class.Members.Any(e => (e as PropertyDeclarationSyntax)?.Identifier.ValueText == name);
             if(hasCommonProperty) {
                 continue;
             }
