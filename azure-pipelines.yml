@@ -9,7 +9,8 @@ trigger:
 - develop
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
+
 
 variables:
   buildConfiguration: 'Release'
