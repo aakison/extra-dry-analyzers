@@ -4,7 +4,7 @@ Opinionated rules for building RESTful web services and Blazor SPA apps using th
 ## Setup
 
 To get the full benefits of this solution:
-  * Install the "Visual Studio Extension Development" worload in Visual Studio Installer (`visualstudio2019-workload-visualstudioextension`)
+  * Install the "Visual Studio Extension Development" workload in Visual Studio Installer (`visualstudio2019-workload-visualstudioextension`)
   * Reda a tutorial to understand capabilities, e.g. https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/tutorials/how-to-write-csharp-analyzer-code-fix
 
 ## Testing

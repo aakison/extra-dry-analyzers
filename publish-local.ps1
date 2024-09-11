@@ -1,4 +1,5 @@
-      
+# Publishes a version of the NuGet package to a local directory for testing. 
+
 function HeadIsBranch($branch) {
     if($Env:BUILD_SOURCEBRANCHNAME -eq $null) {
         $headHash = git rev-parse HEAD
