@@ -20,7 +20,7 @@ variables:
     value: $[in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/develop', 'refs/heads/release')]
   # Semantic Version details
   - name: majorMinorVersion
-    value: '1.0'
+    value: '0.8'
   - name: patchVersion
     value: $[counter(variables['majorMinorVersion'], 0)]
   # The 'pre-alpha' name covers instances where the CI process has been manually triggered from a
@@ -62,31 +62,31 @@ steps:
     command: restore
     projects: $(projectsGlob)
 
-# - task: PowerShell@2
-#   name: CheckVulnerability
-#   displayName: 'Check NuGet Packages for Vulnerabilities'
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#       $global:failedLines = 0;
-#       Function Scan-Line-For-Vulnerability {
-#         [CmdletBinding()]
-#         Param([Parameter(ValueFromPipeline)] $line)
-#         process {
-#           Write-Host $line
-#           if($line.Contains("Moderate") -OR $line.Contains("High")) {
-#             $global:failedLines = $global:failedLines + 1
-#           }
-#         }
-#       }
-#       dotnet list ExtraDry.Analyzers\ExtraDry.Analyzers package --vulnerable --include-transitive | Scan-Line-For-Vulnerability
-#       dotnet list ExtraDry.Analyzers\ExtraDry.Analyzers.CodeFixes package --vulnerable --include-transitive | Scan-Line-For-Vulnerability
-#       dotnet list ExtraDry.Analyzers\ExtraDry.Analyzers.Package package --vulnerable --include-transitive | Scan-Line-For-Vulnerability
-#       if($global:failedLines > 0) {
-#         Write-Host
-#         Write-Host "Vulnerabilities in dependant package have been found, please upgrade or replace." -ForegroundColor Red
-#         exit 1
-#       }
+- task: PowerShell@2
+  name: CheckVulnerability
+  displayName: 'Check NuGet Packages for Vulnerabilities'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $global:failedLines = 0;
+      Function Scan-Line-For-Vulnerability {
+        [CmdletBinding()]
+        Param([Parameter(ValueFromPipeline)] $line)
+        process {
+          Write-Host $line
+          if($line.Contains("Moderate") -OR $line.Contains("High")) {
+            $global:failedLines = $global:failedLines + 1
+          }
+        }
+      }
+      dotnet list ExtraDry.Analyzers/ExtraDry.Analyzers package --vulnerable --include-transitive | Scan-Line-For-Vulnerability
+      dotnet list ExtraDry.Analyzers/ExtraDry.Analyzers.CodeFixes package --vulnerable --include-transitive | Scan-Line-For-Vulnerability
+      dotnet list ExtraDry.Analyzers/ExtraDry.Analyzers.Package package --vulnerable --include-transitive | Scan-Line-For-Vulnerability
+      if($global:failedLines > 0) {
+        Write-Host
+        Write-Host "Vulnerabilities in dependant package have been found, please upgrade or replace." -ForegroundColor Red
+        exit 1
+      }
 
 - task: DotNetCoreCLI@2
   displayName: Build
