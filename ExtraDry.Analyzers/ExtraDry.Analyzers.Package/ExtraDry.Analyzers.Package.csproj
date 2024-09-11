@@ -11,10 +11,9 @@
     <PackageId>ExtraDry.Analyzers</PackageId>
     <PackageVersion>0.1</PackageVersion>
     <Authors>adrian.akison</Authors>
-    <Company>FMI Works</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/fmi-works/extra-dry-analyzers</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/fmi-works/extra-dry-analyzers.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/akison/extra-dry-analyzers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/akison/extra-dry-analyzers.git</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>An opinionated set of rules for creating APIs using the Extra Dry framework.</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
