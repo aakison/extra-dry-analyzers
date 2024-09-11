@@ -11,9 +11,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-
 variables:
-  buildConfiguration: 'Release'
+  - name: buildConfiguration
+    value: 'Release'
   - name: projectsGlob
     value: '**/ExtraDry.@(Analyzers|Analyzers.CodeFixes|Analyzers.Test|Analyzers.Package).csproj' 
   - name: isForDeployment
@@ -49,7 +49,6 @@ variables:
     value: $[format('{0}.{1}{2}', variables['majorMinorVersion'], variables['patchVersion'], variables['prereleaseVersion'])]
   - name: revisionSuffix
     value: $[replace(variables['semanticVersion'], '.', '-')]
-
 
 steps:
 - task: UseDotNet@2
