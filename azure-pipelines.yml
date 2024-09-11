@@ -14,20 +14,48 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  # Version details for `dotnet pack`, values to be overwritten by `GitSemVer`.
-  majorVersion: 0
-  minorVersion: 1
-  patchVersion: 0
-  prereleaseVersion: ''
-  semanticVersion: '0.1.0'  
-  projectsGlob: '**/ExtraDry.@(Analyzers|Analyzers.CodeFixes|Analyzers.Test|Analyzers.Package).csproj' # VSIX is .NET Framework and not needed for NuGet feed.
-  isForDeployment: $[in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/develop', 'refs/heads/release')]
+  - name: projectsGlob
+    value: '**/ExtraDry.@(Analyzers|Analyzers.CodeFixes|Analyzers.Test|Analyzers.Package).csproj' 
+  - name: isForDeployment
+    value: $[in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/develop', 'refs/heads/release')]
+  # Semantic Version details
+  - name: majorMinorVersion
+    value: '1.0'
+  - name: patchVersion
+    value: $[counter(variables['majorMinorVersion'], 0)]
+  # The 'pre-alpha' name covers instances where the CI process has been manually triggered from a
+  # feature branch.  This covers instances where a developer wants to test the CI process or their
+  # feature changes outside of their local development environment.
+  - name: prereleaseVersion
+    value: '-pre-alpha'
+  - name: latestTag
+    value: 'latest-pre-alpha'
+  - ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}: 
+    - name: prereleaseVersion
+      value: '-alpha'
+    - name: latestTag
+      value: 'latest-alpha'
+  - ${{ if eq(variables['Build.SourceBranchName'], 'release') }}: 
+    - name: prereleaseVersion
+      value: '-beta'
+    - name: latestTag
+      value: 'latest-beta'
+  - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}: 
+    - name: prereleaseVersion
+      value: ''
+    - name: latestTag
+      value: 'latest'
+  - name: semanticVersion
+    value: $[format('{0}.{1}{2}', variables['majorMinorVersion'], variables['patchVersion'], variables['prereleaseVersion'])]
+  - name: revisionSuffix
+    value: $[replace(variables['semanticVersion'], '.', '-')]
+
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Install .NET 7.0 SDK'
+  displayName: 'Install .NET 8.0 SDK'
   inputs:
-    version: '7.0.x'
+    version: '8.0.x'
 
 - task: DotNetCoreCLI@2
   displayName: Restore
@@ -73,54 +101,7 @@ steps:
     command: test
     projects: '**/*Test/*.csproj'
     arguments: '--configuration $(BuildConfiguration) --no-build'
-
-- task: PowerShell@2
-  name: GitSemVer
-  displayName: 'Evaluate Git Semantic Version'
-  inputs:
-    targetType: 'inline'
-    script: |
-      Write-Host "Trigger Branch is $Env:BUILD_SOURCEBRANCHNAME"
-      function HeadIsBranch($branch) {
-        if($Env:BUILD_SOURCEBRANCHNAME -eq $null) {
-          $headHash = git rev-parse HEAD
-          $branchHash = git rev-parse $branch
-          $headHash -eq $branchHash
-        }
-        else {
-          $Env:BUILD_SOURCEBRANCHNAME -eq $branch
-        }
-      }
-      function PublishVariable($name, $value) {
-        Write-Host "Setting Variable $name to: $value"
-        Write-Host "##vso[task.setvariable variable=$name]$value"
-      }
-      function Coallesce($value1, $value2) {
-        if($value1 -eq $null) { $value2 } else { $value1 }
-      }
-      $describe = git describe --tags
-      Write-Host "Git Version is $describe"
-      $bits = $describe.TrimStart("v").Split(".-")
-      $majorVersion = Coallesce $bits[0] 1
-      $minorVersion = Coallesce $bits[1] 0
-      $patchVersion = Coallesce $bits[2] 0
-      $prereleaseVersion = "head" # no semantic meaning
-      if(HeadIsBranch("develop")) {
-          $prereleaseVersion = "alpha"
-      }
-      if(HeadIsBranch("release")) {
-          $prereleaseVersion = "beta"
-      }
-      if(HeadIsBranch("main") -OR HeadIsBranch("master")) {
-          $prereleaseVersion = ""
-      }
-      $semanticVersion = "$majorVersion.$minorVersion.$patchVersion-$prereleaseVersion".TrimEnd("-")
-      PublishVariable "majorVersion" $majorVersion
-      PublishVariable "minorVersion" $minorVersion
-      PublishVariable "patchVersion" $patchVersion
-      PublishVariable "prereleaseVersion" $prereleaseVersion
-      PublishVariable "semanticVersion" $semanticVersion
-
+    
 - task: DotNetCoreCLI@2
   displayName: Pack
   condition: and(succeeded(), eq(variables.isForDeployment, true))

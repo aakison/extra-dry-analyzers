@@ -16,8 +16,7 @@ public class PocoDeleteRulePropertyName : DryDiagnosticNodeAnalyzer {
 
     public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
-        var _class = context.Node as ClassDeclarationSyntax;
-        if(_class == null) {
+        if(context.Node is not ClassDeclarationSyntax _class) {
             return;
         }
         var hasDelete = HasAttribute(context, _class, "DeleteRuleAttribute", out var softDeleteAttribute);
