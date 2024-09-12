@@ -5,7 +5,7 @@ public class ApiControllerPrimaryConstructorShouldNotInjectDdContext : DryDiagno
 
     public ApiControllerPrimaryConstructorShouldNotInjectDdContext() : base(
         SyntaxKind.ClassDeclaration,
-        1012,
+        1018,
         DryAnalyzerCategory.Usage,
         DiagnosticSeverity.Warning,
         "API Controller Classes should not directly use DbContext.",
