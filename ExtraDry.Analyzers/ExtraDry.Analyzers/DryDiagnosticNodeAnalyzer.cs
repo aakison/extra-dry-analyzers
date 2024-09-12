@@ -208,6 +208,24 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
         return null;
     }
 
+    protected static ParameterSyntax FirstPrimaryCtorTypeParameter(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax _class, string typeName)
+    {
+        if(_class == null) {
+            return null;
+        }
+        // Use parallel arrays to correlate semantic model with syntax model for parameter.
+        var parameters = _class.ParameterList?.Parameters.ToList();
+        var semanticParameters = parameters.Select(e => context.SemanticModel.GetDeclaredSymbol(e)).ToList();
+        for(int i = 0; i < semanticParameters.Count; ++i) {
+            var semanticParam = semanticParameters[i];
+            var isChild = Inherits(semanticParam.Type, typeName);
+            if(isChild) {
+                return parameters[i];
+            }
+        }
+        return null;
+    }
+
     protected static bool PropertyInheritsFrom(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax property, string typeName)
     {
         if(property == null) {
