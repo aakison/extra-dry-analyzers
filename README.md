@@ -1,4 +1,4 @@
-# extra-dry-analyzers
+# Extra Dry Analyzers
 Opinionated rules for building RESTful web services and Blazor SPA apps using the Extra Dry framework.
 
 ## Setup

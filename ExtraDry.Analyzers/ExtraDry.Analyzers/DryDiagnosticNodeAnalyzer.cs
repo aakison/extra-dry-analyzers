@@ -215,9 +215,18 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
         }
         // Use parallel arrays to correlate semantic model with syntax model for parameter.
         var parameters = _class.ParameterList?.Parameters.ToList();
+        if(parameters == null) {
+            return null;
+        }
         var semanticParameters = parameters.Select(e => context.SemanticModel.GetDeclaredSymbol(e)).ToList();
+        if(semanticParameters == null) {
+            return null;
+        }
         for(int i = 0; i < semanticParameters.Count; ++i) {
             var semanticParam = semanticParameters[i];
+            if(semanticParam == null) {
+                continue;
+            }
             var isChild = Inherits(semanticParam.Type, typeName);
             if(isChild) {
                 return parameters[i];

@@ -12,8 +12,8 @@
     <PackageVersion>0.8</PackageVersion>
     <Authors>adrian.akison</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/akison/extra-dry-analyzers</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/akison/extra-dry-analyzers.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/aakison/extra-dry-analyzers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aakison/extra-dry-analyzers.git</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>An opinionated set of rules for creating APIs using the Extra Dry framework.</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
