@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Testing;
+﻿using ExtraDry.Analyzers.Test.Verifiers;
+using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 

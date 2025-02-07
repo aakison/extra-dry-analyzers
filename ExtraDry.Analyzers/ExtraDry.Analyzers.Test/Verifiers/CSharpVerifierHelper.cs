@@ -3,10 +3,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Immutable;
 
-namespace ExtraDry.Analyzers.Test
-{
-    internal static class CSharpVerifierHelper
-    {
+namespace ExtraDry.Analyzers.Test.Verifiers {
+    internal static class CSharpVerifierHelper {
         /// <summary>
         /// By default, the compiler reports diagnostics for nullable reference types at
         /// <see cref="DiagnosticSeverity.Warning"/>, and the analyzer test framework defaults to only validating

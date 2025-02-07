@@ -1,11 +1,11 @@
-﻿using Microsoft.CodeAnalysis.CodeFixes;
+﻿using ExtraDry.Analyzers.Test.Verifiers;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 
-namespace ExtraDry.Analyzers.Test
-{
+namespace ExtraDry.Analyzers.Test {
     public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
         where TAnalyzer : DiagnosticAnalyzer, new()
         where TCodeFix : CodeFixProvider, new()

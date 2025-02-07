@@ -30,6 +30,6 @@ public class HttpVerbsShouldNotTakeReservedWords : DryDiagnosticNodeAnalyzer {
         context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
     }
 
-    private static readonly List<string> reservedWords = new() { "filter", "sort", "take", "skip", "token", "DefaultTake" };
+    private static readonly List<string> reservedWords = ["filter", "sort", "take", "skip", "token", "DefaultTake"];
 
 }

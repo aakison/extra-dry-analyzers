@@ -33,6 +33,6 @@ public class HttpVerbsShouldNotTakeInt : DryDiagnosticNodeAnalyzer {
         context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
     }
 
-    private static readonly List<string> intTypes = new() { "int", "long", "Int32", "Int64", "short", "Int16", "unsigned", "Uint32" };
+    private static readonly List<string> intTypes = ["int", "long", "Int32", "Int64", "short", "Int16", "unsigned", "Uint32"];
 
 }

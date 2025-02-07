@@ -36,7 +36,7 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
     protected SyntaxKind Kind { get; set; }
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics {
-        get { return ImmutableArray.Create(Rule); }
+        get { return [Rule]; }
     }
 
     public override void Initialize(AnalysisContext context)
@@ -60,7 +60,7 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
             return false;
         }
         var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
-        var attributes = _class.AttributeLists.SelectMany(e => e.Attributes) ?? Array.Empty<AttributeSyntax>();
+        var attributes = _class.AttributeLists.SelectMany(e => e.Attributes) ?? [];
         return AnyAttributeMatches(context, out attribute, fullNames, attributes);
     }
 
@@ -108,7 +108,7 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
             return false;
         }
         var fullNames = attributeNames.Select(e => e.EndsWith("Attribute") ? e : $"{e}Attribute");
-        var attributes = _enum.AttributeLists.SelectMany(e => e.Attributes) ?? Array.Empty<AttributeSyntax>();
+        var attributes = _enum.AttributeLists.SelectMany(e => e.Attributes) ?? [];
         return AnyAttributeMatches(context, out attribute, fullNames, attributes);
     }
 
@@ -186,7 +186,7 @@ public abstract class DryDiagnosticNodeAnalyzer : DiagnosticAnalyzer
 
     protected static ParameterSyntax[] Parameters(MethodDeclarationSyntax method)
     {
-        return method?.ParameterList?.Parameters.ToArray() ?? Array.Empty<ParameterSyntax>();
+        return method?.ParameterList?.Parameters.ToArray() ?? [];
     }
 
     protected static ParameterSyntax FirstTypeParameter(SyntaxNodeAnalysisContext context, BaseMethodDeclarationSyntax method, string typeName)

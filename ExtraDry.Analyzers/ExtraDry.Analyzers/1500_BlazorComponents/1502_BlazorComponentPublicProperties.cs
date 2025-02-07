@@ -40,5 +40,5 @@ public class BlazorComponentsCommonPropertiesArePublic : DryDiagnosticNodeAnalyz
         context.ReportDiagnostic(Diagnostic.Create(Rule, property.Identifier.GetLocation(), property.Identifier.ValueText));
     }
 
-    public string[] commonProperties = { "CssClass", "Placeholder", "UnmatchedAttributes" };
+    public string[] commonProperties = ["CssClass", "Placeholder", "UnmatchedAttributes"];
 }
