@@ -19,8 +19,11 @@ public class HttpCreateVerbsShouldReturnResourceReference : DryDiagnosticNodeAna
     public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
         var method = (MethodDeclarationSyntax)context.Node;
-        var hasPostAttribute = HasAnyAttribute(context, method, out var _, "HttpPost");
+        var hasPostAttribute = HasAnyAttribute(context, method, out var postAttribute, "HttpPost");
         if(!hasPostAttribute) {
+            return;
+        }
+        if(postAttribute.ArgumentList?.ToString()?.Contains(':') ?? false) {
             return;
         }
         var _class = ClassForMember(method);
@@ -37,5 +40,4 @@ public class HttpCreateVerbsShouldReturnResourceReference : DryDiagnosticNodeAna
         }
         context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
     }
-
 }

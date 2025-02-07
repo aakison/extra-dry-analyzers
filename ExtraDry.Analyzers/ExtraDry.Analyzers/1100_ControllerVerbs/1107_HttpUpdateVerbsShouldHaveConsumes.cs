@@ -1,4 +1,4 @@
-﻿namespace ExtraDry.Analyzers; 
+﻿namespace ExtraDry.Analyzers;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class HttpUpdateVerbsShouldHaveConsumes : DryDiagnosticNodeAnalyzer {
@@ -17,6 +17,10 @@ public class HttpUpdateVerbsShouldHaveConsumes : DryDiagnosticNodeAnalyzer {
     public override void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
         var method = (MethodDeclarationSyntax)context.Node;
+        var hasPostAttribute = HasAnyAttribute(context, method, out var postAttribute, "HttpPost");
+        if(hasPostAttribute && (postAttribute?.ArgumentList?.ToString()?.Contains(':') ?? false)) {
+            return;
+        }
         var hasVerbAttribute = HasAnyAttribute(context, method, out var _, "HttpPost", "HttpPut", "HttpPatch");
         if(!hasVerbAttribute) {
             return;
@@ -30,9 +34,9 @@ public class HttpUpdateVerbsShouldHaveConsumes : DryDiagnosticNodeAnalyzer {
             return;
         }
         var hasApiController = HasAttribute(context, _class, "ApiController", out var _);
-        if(hasApiController) {
-            context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
+        if(!hasApiController) {
+            return;
         }
+        context.ReportDiagnostic(Diagnostic.Create(Rule, method.Identifier.GetLocation(), method.Identifier.ValueText));
     }
-
 }

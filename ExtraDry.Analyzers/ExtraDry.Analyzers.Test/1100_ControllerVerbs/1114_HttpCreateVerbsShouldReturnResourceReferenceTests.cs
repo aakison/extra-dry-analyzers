@@ -6,7 +6,6 @@ using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
 
 namespace ExtraDry.Analyzers.Test;
 
-
 public class HttpCreateVerbsShouldReturnResourceReferenceTests {
 
     [Fact]
@@ -44,6 +43,18 @@ public class SampleController {{
     }
 
     [Fact]
+    public async Task HttpRpcControllerMethod_NoDiagnostic()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+[ApiController]
+public class SampleController : Controller {{
+    [HttpPost(""/some/path:rpc-action"")]
+    public void Method(int id) {{}}
+}}
+");
+    }
+
+    [Fact]
     public async Task NoProducesNotThisRule_NoDiagnostic()
     {
         await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
@@ -56,7 +67,6 @@ public class SampleController : Controller {{
 }}
 ");
     }
-
 
     [Fact]
     public async Task NotApiController_NoDiagnostic()
@@ -99,6 +109,4 @@ public class SampleController {{
     }
 
     public string stubs = TestHelpers.Stubs;
-
-
 }

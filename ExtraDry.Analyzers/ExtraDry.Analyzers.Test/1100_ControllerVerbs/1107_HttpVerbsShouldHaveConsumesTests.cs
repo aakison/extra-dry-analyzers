@@ -3,15 +3,15 @@ using Xunit;
 using VerifyCS = ExtraDry.Analyzers.Test.CSharpAnalyzerVerifier<
     ExtraDry.Analyzers.HttpUpdateVerbsShouldHaveConsumes>;
 
-namespace ExtraDry.Analyzers.Test
-{
+namespace ExtraDry.Analyzers.Test {
+
     public class HttpVerbsShouldHaveConsumesTests {
 
         [Theory]
         [InlineData("HttpPatch", "Consumes")] // Set up alright
         [InlineData("HttpPut", "Consumes")]
         [InlineData("HttpPost", "Consumes")]
-        [InlineData("HttpGet", "Route")] // No consumes required 
+        [InlineData("HttpGet", "Route")] // No consumes required
         [InlineData("HttpDelete", "Route")]
         public async Task AllGood_NoDiagnostic(string verb, string other)
         {
@@ -39,6 +39,18 @@ public class SampleController : Controller {{
 ");
         }
 
+        [Fact]
+        public async Task HttpRpcControllerMethod_NoDiagnostic()
+        {
+            await VerifyCS.VerifyAnalyzerAsync(stubs + $@"
+[ApiController]
+public class SampleController : Controller {{
+    [HttpPost(""/some/path:rpc-action"")]
+    public void Method(int id) {{}}
+}}
+");
+        }
+
         [Theory]
         [InlineData("HttpPatch")]
         [InlineData("HttpPut")]
@@ -55,6 +67,5 @@ public class SampleController {{
         }
 
         public string stubs = TestHelpers.Stubs;
-
     }
 }
