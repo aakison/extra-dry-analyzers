@@ -40,7 +40,7 @@ public class HttpVerbsShouldHaveCrudNames : DryDiagnosticNodeAnalyzer {
 
     private readonly Dictionary<string, List<string>> prefixLookup = new() {
         { "HttpGet", new List<string> { "List", "Read", "Tree", "Retrieve" } }, // Retrieve is OK, but not recommended by rule.
-        { "HttpPost", new List<string> { "Create", "ListHierarchy", "Tree", "ListTree", "Restore", "Expunge" } },
+        { "HttpPost", new List<string> { "Create", "ListHierarchy", "Tree", "ListTree", "Restore", "Expunge", "Execute" } },
         { "HttpPut", new List<string> { "Update", "Upsert" } },
         { "HttpPatch", new List<string> { "Patch", "Insert" } },
         { "HttpDelete", new List<string> { "Delete" } },
