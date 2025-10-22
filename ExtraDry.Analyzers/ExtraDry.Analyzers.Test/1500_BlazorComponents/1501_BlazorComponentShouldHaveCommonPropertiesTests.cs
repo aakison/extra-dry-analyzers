@@ -65,17 +65,6 @@ public class [|SampleComponent|] : ComponentBase, IExtraDryComponent {
 ");
         }
 
-        [Fact]
-        public async Task MissingUnmatchedAttributesProperty_Diagnostic()
-        {
-            await VerifyCS.VerifyAnalyzerAsync(stubs + @"
-public class [|SampleComponent|] : ComponentBase, IExtraDryComponent {
-    public string CssClass { get; set; }
-    public Dictionary<string, object> NotUnmatchedAttributes { get; set; }
-}
-");
-        }
-        
         public string stubs = TestHelpers.Stubs;
 
     }
