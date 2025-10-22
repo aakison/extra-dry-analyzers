@@ -43,5 +43,5 @@ public class BlazorComponentShouldHaveCommonProperties : DryDiagnosticNodeAnalyz
         }
     }
 
-    public string[] names = ["CssClass", "UnmatchedAttributes"];
+    public string[] names = ["CssClass"];
 }
